@@ -1,0 +1,17 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+
+# Local agent state
+.ai-bridge/
+.claude/
+
+# Generated resume output
+output/
+*.html
+*.pdf
+
+# Local research/reference material, not part of the distributable skill
+reference/
+template/
+输入

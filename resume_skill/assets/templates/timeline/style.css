@@ -1,0 +1,47 @@
+/* timeline —— 单栏 + 左侧时间线竖轴，每条经历带圆点与时间，强调成长脉络。
+   适合经历较多、想突出时间顺序的求职者（实习/项目密集）。 */
+@page { size: A4; margin: 11mm 14mm; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root { --accent: #0a7d6b; --rail: #cfe3df; }
+
+body {
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+  color: #222; line-height: 1.45; font-size: 9.8pt;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.page { max-width: 178mm; margin: 0 auto; }
+
+.hd { padding-bottom: 6px; border-bottom: 2px solid var(--accent); margin-bottom: 9px; }
+.name { font-size: 21pt; font-weight: 700; color: var(--accent); letter-spacing: 2px; }
+.intent { font-size: 10.5pt; color: #333; margin-top: 3px; }
+.intent-detail { font-size: 9pt; color: #666; }
+.contact { font-size: 9.2pt; color: #555; margin-top: 3px; }
+.summary { font-size: 9.6pt; color: #444; margin-top: 5px; line-height: 1.5; }
+
+.sec { margin-bottom: 8px; }
+.sec-title {
+  font-size: 12pt; font-weight: 700; color: var(--accent);
+  margin-bottom: 5px; letter-spacing: 1px;
+}
+
+/* 时间线竖轴：左内边距留给轴线，轴线用容器左边框实现 */
+.rail { border-left: 2px solid var(--rail); margin-left: 5px; padding-left: 16px; }
+.entry { position: relative; margin-bottom: 6px; page-break-inside: avoid; break-inside: avoid; }
+.dot {
+  position: absolute; left: -23px; top: 3px;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--accent); border: 2px solid #fff; box-shadow: 0 0 0 1px var(--rail);
+}
+.entry-meta { font-size: 9pt; color: var(--accent); font-weight: 600; margin-bottom: 1px; }
+.entry-title strong { font-size: 10.8pt; }
+.entry-sub { color: #555; font-size: 10pt; margin-left: 4px; }
+
+ul { list-style: none; margin-top: 3px; }
+ul li { position: relative; padding-left: 13px; margin-bottom: 1px; line-height: 1.45; }
+ul li::before { content: "•"; position: absolute; left: 2px; color: #999; }
+ul.plain { margin-left: 5px; }
+ul.plain li { padding-left: 13px; }
+
+strong { font-weight: 700; }
+code { font-family: 'SF Mono', Menlo, monospace; font-size: 9.5pt; background: #eef6f4; padding: 0 3px; border-radius: 3px; }

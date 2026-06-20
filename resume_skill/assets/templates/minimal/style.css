@@ -1,0 +1,49 @@
+/* minimal —— 极简纯白：大留白、发丝级分隔线、字距拉开的小节标签。
+   克制使用主色（仅小节标签与姓名点缀）。适合追求干净、设计感的求职者，也很 ATS 友好。 */
+@page { size: A4; margin: 13mm 16mm; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root { --accent: #2b2b2b; }
+
+body {
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+  color: #2a2a2a; line-height: 1.5; font-size: 9.8pt;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.page { max-width: 174mm; margin: 0 auto; }
+
+/* 头部：左姓名/意向，右联系方式，底部一条发丝线 */
+.hd {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;
+  padding-bottom: 7px; border-bottom: 1px solid #e3e3e3; margin-bottom: 3px;
+}
+.photo { width: 70px; height: 92px; object-fit: cover; border-radius: 2px; }
+.hd-main { flex: 1; }
+.name { font-size: 22pt; font-weight: 600; letter-spacing: 4px; color: #1a1a1a; }
+.intent { font-size: 10.5pt; color: var(--accent); margin-top: 6px; letter-spacing: 1px; }
+.intent-detail { font-size: 8.8pt; color: #888; margin-top: 3px; letter-spacing: 0; }
+.hd-contact { text-align: right; font-size: 9pt; color: #777; line-height: 1.7; }
+.summary { font-size: 9.6pt; color: #555; margin: 7px 0 3px; line-height: 1.5; }
+
+/* 小节：字距拉开的标签 + 极细规则线 */
+.sec { margin-top: 10px; }
+.sec-title {
+  font-size: 10pt; font-weight: 600; color: var(--accent);
+  letter-spacing: 3px; text-transform: uppercase;
+  padding-bottom: 3px; margin-bottom: 5px; border-bottom: 1px solid #ededed;
+}
+
+.entry { margin-bottom: 6px; page-break-inside: avoid; break-inside: avoid; }
+.entry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.entry-title strong { font-size: 10.8pt; font-weight: 600; color: #1a1a1a; }
+.entry-sub { color: #666; font-size: 10pt; margin-left: 6px; }
+.entry-meta { color: #999; font-size: 9pt; white-space: nowrap; letter-spacing: 0.5px; }
+
+ul { list-style: none; margin-top: 2px; }
+ul li { position: relative; padding-left: 14px; margin-bottom: 1px; line-height: 1.5; color: #3a3a3a; }
+ul li::before { content: "–"; position: absolute; left: 0; color: #bbb; }
+ul.plain li { padding-left: 0; }
+ul.plain li::before { content: ""; }
+
+strong { font-weight: 600; }
+code { font-family: 'SF Mono', Menlo, monospace; font-size: 9.5pt; color: var(--accent); }

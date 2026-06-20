@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{ meta.name }} · 简历</title>
+<style>{{ css }}</style>
+</head>
+<body>
+<div class="page">
+  <header class="hd">
+    {% if meta.photo %}<img class="photo" src="{{ meta.photo }}" alt="photo">{% endif %}
+    <h1 class="name">{{ meta.name }}</h1>
+    {% if meta.intent or meta.intent_detail %}
+    <div class="intent">
+      {% if meta.intent %}求职意向：{{ meta.intent }}{% endif %}
+      {% if meta.intent and meta.intent_detail %}<span class="intent-sep"> · </span>{% endif %}
+      {% if meta.intent_detail %}<span class="intent-detail">{{ meta.intent_detail }}</span>{% endif %}
+    </div>
+    {% endif %}
+    <div class="contact">
+      {% set bits = [] %}
+      {% if meta.phone %}{% set _ = bits.append(meta.phone) %}{% endif %}
+      {% if meta.email %}{% set _ = bits.append(meta.email) %}{% endif %}
+      {% if meta.location %}{% set _ = bits.append(meta.location) %}{% endif %}
+      {% if meta.gender %}{% set _ = bits.append(meta.gender) %}{% endif %}
+      {% if meta.birth %}{% set _ = bits.append(meta.birth) %}{% endif %}
+      {{ bits | join('  ·  ') }}
+    </div>
+    {% if meta.summary %}<p class="summary">{{ meta.summary }}</p>{% endif %}
+  </header>
+
+  {% for sec in sections %}
+  <section class="sec">
+    <h2 class="sec-title">{{ sec.title }}</h2>
+    {% if sec.bullets %}
+    <ul class="plain">
+      {% for b in sec.bullets %}<li>{{ b }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+    {% for e in sec.entries %}
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-title">
+          {% if e.title_parts %}<strong>{{ e.title_parts[0] }}</strong>{% endif %}
+          {% if e.title_parts|length > 1 %}<span class="entry-sub">{{ e.title_parts[1:] | join(' · ') }}</span>{% endif %}
+        </span>
+        {% if e.meta %}<span class="entry-meta">{{ e.meta }}</span>{% endif %}
+      </div>
+      {% if e.bullets %}
+      <ul>
+        {% for b in e.bullets %}<li>{{ b }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </section>
+  {% endfor %}
+</div>
+</body>
+</html>

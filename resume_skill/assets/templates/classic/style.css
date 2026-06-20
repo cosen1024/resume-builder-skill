@@ -1,0 +1,48 @@
+/* classic —— 单栏、工整、黑白、ATS 友好。适合大多数投递与纯文本解析场景。 */
+@page { size: A4; margin: 14mm 16mm; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+  color: #222;
+  line-height: 1.5;
+  font-size: 10.5pt;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.page { max-width: 178mm; margin: 0 auto; }
+
+/* 头部 */
+.hd { text-align: center; padding-bottom: 8px; border-bottom: 2px solid #222; margin-bottom: 12px; }
+.name { font-size: 22pt; font-weight: 700; letter-spacing: 2px; }
+.intent { font-size: 11pt; color: #333; margin-top: 4px; }
+.intent-detail { font-size: 9.2pt; color: #666; }
+.contact { font-size: 9.5pt; color: #555; margin-top: 5px; }
+.summary { font-size: 10pt; color: #444; margin-top: 8px; text-align: left; line-height: 1.6; }
+.hd { position: relative; }
+.photo { position: absolute; right: 0; top: 0; width: 76px; height: 100px; object-fit: cover; border-radius: 3px; }
+
+/* 区块 */
+.sec { margin-bottom: 11px; }
+.sec-title {
+  font-size: 12pt; font-weight: 700; color: #1a1a1a;
+  border-bottom: 1px solid #bbb; padding-bottom: 3px; margin-bottom: 7px;
+  letter-spacing: 1px;
+}
+
+/* 条目 */
+.entry { margin-bottom: 8px; page-break-inside: avoid; break-inside: avoid; }
+.entry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.entry-title strong { font-size: 10.8pt; }
+.entry-sub { color: #555; font-size: 10pt; margin-left: 4px; }
+.entry-meta { color: #666; font-size: 9.5pt; white-space: nowrap; }
+
+ul { list-style: none; margin-top: 3px; }
+ul li { position: relative; padding-left: 13px; margin-bottom: 2px; line-height: 1.55; }
+ul li::before { content: "•"; position: absolute; left: 2px; color: #888; }
+ul.plain li { padding-left: 0; }
+ul.plain li::before { content: ""; }
+
+strong { font-weight: 700; }
+code { font-family: 'SF Mono', Menlo, monospace; font-size: 9.5pt; background: #f2f2f2; padding: 0 3px; border-radius: 3px; }

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{ meta.name }} · 简历</title>
+<style>{{ css }}</style>
+</head>
+<body>
+<table class="layout"><tr>
+  <td class="sidebar">
+    {% if meta.photo %}<img class="photo" src="{{ meta.photo }}" alt="photo">{% endif %}
+    <h1 class="name">{{ meta.name }}</h1>
+    {% if meta.intent %}<div class="intent">{{ meta.intent }}</div>{% endif %}
+    {% if meta.intent_detail %}<div class="intent-detail">{{ meta.intent_detail }}</div>{% endif %}
+
+    <div class="side-block">
+      <h3>联系方式</h3>
+      {% if meta.phone %}<div class="kv">{{ meta.phone }}</div>{% endif %}
+      {% if meta.email %}<div class="kv">{{ meta.email }}</div>{% endif %}
+      {% if meta.location %}<div class="kv">{{ meta.location }}</div>{% endif %}
+      {% if meta.gender or meta.birth %}<div class="kv">{{ [meta.gender, meta.birth] | select | join(' · ') }}</div>{% endif %}
+    </div>
+
+    {% if meta.summary %}
+    <div class="side-block">
+      <h3>个人简介</h3>
+      <p class="side-summary">{{ meta.summary }}</p>
+    </div>
+    {% endif %}
+
+    {% for sec in sidebar %}
+    <div class="side-block">
+      <h3>{{ sec.title }}</h3>
+      {% for b in sec.bullets %}<div class="kv">{{ b }}</div>{% endfor %}
+      {% for e in sec.entries %}
+        <div class="kv"><strong>{{ e.title_parts | join(' · ') }}</strong></div>
+        {% for b in e.bullets %}<div class="kv">{{ b }}</div>{% endfor %}
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </td>
+
+  <td class="main">
+    {% for sec in main %}
+    <section class="sec">
+      <h2 class="sec-title">{{ sec.title }}</h2>
+      {% if sec.bullets %}<ul class="plain">{% for b in sec.bullets %}<li>{{ b }}</li>{% endfor %}</ul>{% endif %}
+      {% for e in sec.entries %}
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">
+            {% if e.title_parts %}<strong>{{ e.title_parts[0] }}</strong>{% endif %}
+            {% if e.title_parts|length > 1 %}<span class="entry-sub">{{ e.title_parts[1:] | join(' · ') }}</span>{% endif %}
+          </span>
+          {% if e.meta %}<span class="entry-meta">{{ e.meta }}</span>{% endif %}
+        </div>
+        {% if e.bullets %}<ul>{% for b in e.bullets %}<li>{{ b }}</li>{% endfor %}</ul>{% endif %}
+      </div>
+      {% endfor %}
+    </section>
+    {% endfor %}
+  </td>
+</tr></table>
+</body>
+</html>
