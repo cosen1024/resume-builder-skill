@@ -7,7 +7,7 @@ English | [简体中文](README.md)
 It turns real experience into a polished resume, tailors content to a job description, and renders
 one Markdown source into multiple searchable A4 PDF layouts.
 
-![Compact template example](docs/images/resume-compact-photo.png)
+![High-resolution compact PDF preview](docs/images/resume-compact.png)
 
 ## Features
 
@@ -160,7 +160,6 @@ resume_skill/
 ├── assets/
 │   ├── resume.example.csv
 │   ├── resume.example.md
-│   ├── examples/
 │   ├── styles/
 │   └── templates/
 └── evals/
@@ -183,4 +182,8 @@ python3 -m unittest \
 
 ## License
 
-[MIT](LICENSE)
+[PolyForm Noncommercial License 1.0.0](LICENSE)
+
+Personal study, research, education, and other noncommercial uses are permitted. Commercial use
+requires separate permission from the author. Because commercial use is restricted, this project is
+source-available rather than Open Source Initiative approved open source.

@@ -4,8 +4,8 @@
  * 每个模板仍可覆盖字体、字号、页边距和颜色。
  */
 :root {
-  --font-sans: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB",
-    "Noto Sans CJK SC", "Source Han Sans SC", Arial, sans-serif;
+  --font-sans: "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC",
+    "Source Han Sans SC", "Heiti SC", sans-serif;
   --font-serif: "Songti SC", "STSong", "Noto Serif CJK SC",
     "Source Han Serif SC", serif;
   --font-mono: "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;

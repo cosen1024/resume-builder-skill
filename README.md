@@ -7,7 +7,7 @@
 它可以根据真实经历生成或润色简历，按目标岗位 JD 调整内容，并将同一份 Markdown
 内容渲染成多种 A4 PDF 模板。
 
-![compact 模板示例](docs/images/resume-compact-photo.png)
+![compact 模板 PDF 高清预览](docs/images/resume-compact.png)
 
 ## 功能
 
@@ -159,7 +159,6 @@ resume_skill/
 ├── assets/
 │   ├── resume.example.csv
 │   ├── resume.example.md
-│   ├── examples/
 │   ├── styles/
 │   └── templates/
 └── evals/
@@ -182,4 +181,7 @@ python3 -m unittest \
 
 ## License
 
-[MIT](LICENSE)
+[PolyForm Noncommercial License 1.0.0](LICENSE)
+
+允许个人学习、研究、教育及其他非商业用途。商业使用需要获得作者的单独授权。
+由于该许可证限制商业用途，本项目属于“源码可用（source-available）”，不属于 OSI 定义下的开源软件。

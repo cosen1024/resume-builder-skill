@@ -10,7 +10,7 @@
 :root { --side-w: 62mm; --accent: #2456a6; --side-bg: #eef2f8; }
 
 body {
-  font-family: 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+  font-family: var(--font-sans);
   color: #222;
   line-height: 1.5;
   font-size: 10.5pt;

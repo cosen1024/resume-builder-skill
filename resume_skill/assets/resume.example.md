@@ -1,6 +1,5 @@
 ---
 name: 库森
-photo: examples/demo-avatar.svg
 gender: 男
 birth: 1999-11
 phone: 188-2675-4310

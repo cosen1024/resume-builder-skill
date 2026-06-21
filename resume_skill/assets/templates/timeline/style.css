@@ -6,7 +6,7 @@
 :root { --accent: #0a7d6b; --rail: #cfe3df; }
 
 body {
-  font-family: 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+  font-family: var(--font-sans);
   color: #222; line-height: 1.45; font-size: 9.8pt;
   -webkit-print-color-adjust: exact; print-color-adjust: exact;
 }
