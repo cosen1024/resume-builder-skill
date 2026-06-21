@@ -2,18 +2,129 @@
 
 English | [简体中文](README.md)
 
-`resume-builder` is a Chinese resume-generation Skill for Codex and Claude Code. It keeps resume
-content in an editable `resume.md`, then uses Jinja templates, offline CSS, and WeasyPrint to
-produce searchable A4 PDFs.
+`resume-builder` is a Codex and Claude Code Skill for creating Chinese resumes.
 
-## Preview
+It turns real experience into a polished resume, tailors content to a job description, and renders
+one Markdown source into multiple searchable A4 PDF layouts.
 
-The bundled fictional example uses the `compact` template with the `teal` accent and an optional
-photo. All names, schools, companies, contact details, projects, and metrics are demonstration data.
+![Compact template example](docs/images/resume-compact-photo.png)
 
-![Compact resume example with photo](docs/images/resume-compact-photo.png)
+## Features
 
-Source: [`resume_skill/assets/resume.example.md`](resume_skill/assets/resume.example.md)
+- Build resumes from conversation, Markdown, CSV, or xlsx
+- Rewrite experience using STAR/XYZ and quantified outcomes
+- Analyze matched and missing job-description keywords
+- Adapt content for campus hiring, experienced hiring, and different roles
+- Switch between five layouts and multiple accent colors
+- Support optional photos while excluding sensitive identity data by default
+- Generate offline, searchable A4 PDFs
+
+## Installation
+
+### Recommended Codex installation
+
+Give the repository URL to Codex and ask it to install the complete Skill folder:
+
+```text
+Install the Codex Skill from this repository:
+https://github.com/cosen1024/resume-builder-skill.git
+
+Install the complete resume_skill folder as resume-builder.
+Do not copy only SKILL.md. Preserve the agents, assets, references,
+scripts, and evals directories.
+```
+
+The complete directory structure is required because rendering depends on bundled templates, CSS,
+scripts, and writing references.
+
+Start a new Codex session after installation.
+
+### Manual Codex installation
+
+```bash
+git clone https://github.com/cosen1024/resume-builder-skill.git
+cd resume-builder-skill
+
+mkdir -p ~/.codex/skills
+cp -R resume_skill ~/.codex/skills/resume-builder
+```
+
+To update later with `git pull`, keep the clone and use a symlink:
+
+```bash
+git clone https://github.com/cosen1024/resume-builder-skill.git
+cd resume-builder-skill
+
+mkdir -p ~/.codex/skills
+ln -s "$(pwd)/resume_skill" ~/.codex/skills/resume-builder
+```
+
+### Claude Code installation
+
+```bash
+git clone https://github.com/cosen1024/resume-builder-skill.git
+cd resume-builder-skill
+
+mkdir -p ~/.claude/skills
+cp -R resume_skill ~/.claude/skills/resume-builder
+```
+
+## Python dependencies
+
+PDF output uses WeasyPrint:
+
+```bash
+/opt/homebrew/bin/python3.13 -m pip install --break-system-packages -r requirements.txt
+```
+
+The verified macOS runtime is:
+
+```bash
+/opt/homebrew/bin/python3.13
+```
+
+## Usage
+
+This Skill requires explicit invocation:
+
+```text
+Use $resume-builder to create a concise Chinese campus resume for a backend engineering role
+from my real experience.
+```
+
+Other examples:
+
+```text
+Use $resume-builder to polish this resume without inventing experience or metrics.
+```
+
+```text
+Use $resume-builder to tailor my resume to this job description and list matched and missing keywords.
+```
+
+```text
+Use $resume-builder to render this resume with both the compact and classic templates.
+```
+
+## Templates
+
+| Template | Style | Recommended use |
+|---|---|---|
+| `compact` | Dense, stable single column | Chinese technical roles and campus hiring |
+| `classic` | Black-and-white, ATS oriented | Broad applications and conservative industries |
+| `modern` | Colored sidebar | Internet, product, and operations roles |
+| `timeline` | Chronological rail | Candidates with many internships or projects |
+| `minimal` | Restrained whitespace | Short, carefully edited resumes |
+
+Available accents:
+
+```text
+blue / teal / wine / ink / purple / green / orange / #rrggbb
+```
+
+`classic` always remains black and white.
+
+## Render the bundled example
 
 ```bash
 /opt/homebrew/bin/python3.13 \
@@ -21,96 +132,35 @@ Source: [`resume_skill/assets/resume.example.md`](resume_skill/assets/resume.exa
   resume_skill/assets/resume.example.md \
   --template compact \
   --accent teal \
-  --out output/kusen-compact-photo.pdf
+  --out resume.pdf
 ```
 
-## Features
-
-- One Markdown content source with five interchangeable layouts.
-- Offline rendering without Typora, browser printing, CDNs, or remote fonts.
-- Chinese campus and experienced-hire writing guidance using STAR/XYZ and quantified outcomes.
-- CSV and xlsx import using a simple three-column schema.
-- Optional photo, preset accents, and custom `#rrggbb` colors.
-- JD-oriented rewriting and keyword-gap analysis without inventing experience or metrics.
-- ATS-oriented `classic` layout plus `compact`, `modern`, `timeline`, and `minimal` visual options.
-- Privacy-first import: identity numbers are excluded from generated metadata by default.
-
-## Templates
-
-| Template | Intended use |
-|---|---|
-| `compact` | Stable, dense, single-column Chinese technical resumes |
-| `classic` | Conservative black-and-white output and ATS parsing |
-| `modern` | Colored sidebar for internet and product roles |
-| `timeline` | Chronological presentation for experience-heavy candidates |
-| `minimal` | Low-density, restrained visual style |
-
-Accents: `blue`, `teal`, `wine`, `ink`, `purple`, `green`, `orange`, or a six-digit hex color.
-`classic` intentionally remains black and white.
-
-## Requirements
-
-This repository is verified on macOS Apple Silicon with:
-
-```bash
-/opt/homebrew/bin/python3.13
-```
-
-Install dependencies:
-
-```bash
-/opt/homebrew/bin/python3.13 -m pip install --break-system-packages -r requirements.txt
-```
-
-On the maintainer's machine, Anaconda Python conflicts with WeasyPrint's glib/pango libraries.
-Chrome headless PDF output is also intentionally unsupported.
-
-## Quick start
-
-Convert the bundled CSV example:
+Convert CSV or xlsx to Markdown:
 
 ```bash
 /opt/homebrew/bin/python3.13 \
   resume_skill/scripts/csv_to_md.py \
   resume_skill/assets/resume.example.csv \
-  -o output/resume.md
+  --out resume.md
 ```
 
-Render it:
-
-```bash
-/opt/homebrew/bin/python3.13 \
-  resume_skill/scripts/render.py \
-  output/resume.md \
-  --template compact \
-  --accent teal \
-  --out output/resume.pdf
-```
-
-The accepted Markdown schema is documented in
-[`field-schema.md`](resume_skill/references/field-schema.md).
-
-## Install as a Skill
-
-Codex:
-
-```bash
-mkdir -p ~/.codex/skills
-ln -s "$(pwd)/resume_skill" ~/.codex/skills/resume-builder
-```
-
-Claude Code:
-
-```bash
-mkdir -p ~/.claude/skills
-ln -s "$(pwd)/resume_skill" ~/.claude/skills/resume-builder
-```
-
-Example prompt:
+## Skill structure
 
 ```text
-Use $resume-builder to create a concise Chinese campus resume for a backend engineering role
-from my real experience.
+resume_skill/
+├── SKILL.md
+├── agents/
+│   └── openai.yaml
+├── scripts/
+│   ├── csv_to_md.py
+│   └── render.py
+├── references/
+├── assets/
+│   ├── examples/
+│   ├── styles/
+│   └── templates/
+└── evals/
+    └── test_resume_skill.py
 ```
 
 ## Tests
@@ -118,25 +168,8 @@ from my real experience.
 ```bash
 /opt/homebrew/bin/python3.13 -m unittest \
   resume_skill/evals/test_resume_skill.py -v
-
-/opt/homebrew/bin/python3.13 \
-  ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py \
-  resume_skill
 ```
 
-Template changes must also be visually checked by rendering all five layouts.
+## License
 
-## Repository scope
-
-The distributable product is `resume_skill/`. The root `reference/`, `template/`, and `output/`
-directories are local research or generated artifacts and are excluded from publication.
-
-See [`RELEASE_REVIEW.md`](RELEASE_REVIEW.md) for the independent review checklist, release
-governance notes, and a ready-to-use AI review prompt.
-
-## Release notes
-
-- External resume projects were studied only for general layout principles. Their author data,
-  example resumes, icons, and template source are not part of this Skill.
-- The demo avatar is an original SVG created for this repository.
-- The project and original demo avatar are released under the [MIT License](LICENSE).
+[MIT](LICENSE)
