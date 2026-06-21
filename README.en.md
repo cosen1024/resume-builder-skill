@@ -74,14 +74,11 @@ cp -R resume_skill ~/.claude/skills/resume-builder
 PDF output uses WeasyPrint:
 
 ```bash
-/opt/homebrew/bin/python3.13 -m pip install --break-system-packages -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 
-The verified macOS runtime is:
-
-```bash
-/opt/homebrew/bin/python3.13
-```
+In these commands, `python3` means the interpreter where the dependencies are installed. Replace it
+with the appropriate interpreter command for your virtual environment, Linux, macOS, or Windows setup.
 
 ## Usage
 
@@ -127,7 +124,7 @@ blue / teal / wine / ink / purple / green / orange / #rrggbb
 ## Render the bundled example
 
 ```bash
-/opt/homebrew/bin/python3.13 \
+python3 \
   resume_skill/scripts/render.py \
   resume_skill/assets/resume.example.md \
   --template compact \
@@ -138,7 +135,7 @@ blue / teal / wine / ink / purple / green / orange / #rrggbb
 Convert CSV or xlsx to Markdown:
 
 ```bash
-/opt/homebrew/bin/python3.13 \
+python3 \
   resume_skill/scripts/csv_to_md.py \
   resume_skill/assets/resume.example.csv \
   --out resume.md
@@ -155,7 +152,14 @@ resume_skill/
 │   ├── csv_to_md.py
 │   └── render.py
 ├── references/
+│   ├── field-schema.md
+│   ├── role-presets.md
+│   ├── templates-guide.md
+│   ├── visual-design-system.md
+│   └── writing-principles.md
 ├── assets/
+│   ├── resume.example.csv
+│   ├── resume.example.md
 │   ├── examples/
 │   ├── styles/
 │   └── templates/
@@ -163,10 +167,17 @@ resume_skill/
     └── test_resume_skill.py
 ```
 
+## Limitations
+
+- Spreadsheet import supports `.csv` and `.xlsx`, but not legacy `.xls`
+- Markdown parsing is limited to the headings, entries, and inline syntax documented by this project
+- Current output formats are HTML and PDF; DOCX export and a web editor are not included
+- JD matching and rewriting are performed by the model invoking the Skill, not by a standalone scorer
+
 ## Tests
 
 ```bash
-/opt/homebrew/bin/python3.13 -m unittest \
+python3 -m unittest \
   resume_skill/evals/test_resume_skill.py -v
 ```
 

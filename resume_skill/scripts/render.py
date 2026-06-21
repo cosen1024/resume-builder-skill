@@ -9,8 +9,7 @@ resume.md 的约定（详见 references/field-schema.md）：
 - `- ` 开头的行是要点（bullet）。没有 `### ` 的节（如技能）直接由要点组成。
 
 渲染后端用 WeasyPrint（纯 Python，无需浏览器，对中文与打印 CSS 支持好）。
-注意：本机请用 Homebrew 的 Python 运行（anaconda 自带的 glib 会让 WeasyPrint 崩溃）：
-    /opt/homebrew/bin/python3.13 render.py resume.md --template modern
+请使用已安装 WeasyPrint 等依赖的 Python 3 解释器运行。
 
 用法：
     python render.py resume.md --template modern --out resume.pdf
@@ -60,8 +59,8 @@ def require_deps(need_pdf=True):
         except Exception:
             missing.append("weasyprint")
     if missing:
-        die("缺少依赖（请用 Homebrew Python）：\n"
-            "    /opt/homebrew/bin/python3.13 -m pip install --break-system-packages "
+        die("缺少依赖：\n"
+            "    python3 -m pip install "
             + " ".join(missing))
 
 

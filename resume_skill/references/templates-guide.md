@@ -45,10 +45,10 @@
 
 ## 渲染命令
 ```bash
-# 本机务必用 Homebrew 的 Python（anaconda 的 glib 会让 WeasyPrint 崩溃）
-/opt/homebrew/bin/python3.13 scripts/render.py resume.md --template modern --accent teal --out resume.pdf
-/opt/homebrew/bin/python3.13 scripts/render.py resume.md --template compact --accent teal --out resume-compact.pdf
-/opt/homebrew/bin/python3.13 scripts/render.py resume.md --template minimal   # 默认配色
-/opt/homebrew/bin/python3.13 scripts/render.py resume.md --html-only          # 只出 HTML，调样式时用
+# 使用已安装依赖的 Python 3；虚拟环境用户替换为对应解释器路径
+python3 scripts/render.py resume.md --template modern --accent teal --out resume.pdf
+python3 scripts/render.py resume.md --template compact --accent teal --out resume-compact.pdf
+python3 scripts/render.py resume.md --template minimal   # 默认配色
+python3 scripts/render.py resume.md --html-only          # 只出 HTML，调样式时用
 ```
 改完 `resume.md` 或某模板的 CSS 后重跑即可。想快速对比，分别渲染到不同文件名再看。

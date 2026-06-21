@@ -74,14 +74,11 @@ cp -R resume_skill ~/.claude/skills/resume-builder
 PDF 由 WeasyPrint 生成。安装依赖：
 
 ```bash
-/opt/homebrew/bin/python3.13 -m pip install --break-system-packages -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 
-当前 macOS 环境推荐使用：
-
-```bash
-/opt/homebrew/bin/python3.13
-```
+命令中的 `python3` 代表安装了上述依赖的 Python 解释器。使用虚拟环境、Linux、macOS
+或 Windows 时，请按实际环境替换为对应的解释器命令。
 
 ## 使用
 
@@ -126,7 +123,7 @@ blue / teal / wine / ink / purple / green / orange / #rrggbb
 ## 直接渲染示例
 
 ```bash
-/opt/homebrew/bin/python3.13 \
+python3 \
   resume_skill/scripts/render.py \
   resume_skill/assets/resume.example.md \
   --template compact \
@@ -137,7 +134,7 @@ blue / teal / wine / ink / purple / green / orange / #rrggbb
 CSV 或 xlsx 可以先转换成 Markdown：
 
 ```bash
-/opt/homebrew/bin/python3.13 \
+python3 \
   resume_skill/scripts/csv_to_md.py \
   resume_skill/assets/resume.example.csv \
   --out resume.md
@@ -169,10 +166,17 @@ resume_skill/
     └── test_resume_skill.py
 ```
 
+## 能力边界
+
+- 表格导入支持 `.csv` 和 `.xlsx`，不支持旧版 `.xls`
+- Markdown 只解析本项目约定的标题、条目和简单行内格式
+- 当前输出格式为 HTML 和 PDF，不提供 DOCX 导出或网页编辑器
+- JD 匹配与内容润色由调用 Skill 的模型完成，不是独立评分服务
+
 ## 测试
 
 ```bash
-/opt/homebrew/bin/python3.13 -m unittest \
+python3 -m unittest \
   resume_skill/evals/test_resume_skill.py -v
 ```
 

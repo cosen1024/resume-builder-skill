@@ -14,13 +14,12 @@ description: >-
 内容源是 `resume.md`（Markdown），渲染后端是 WeasyPrint（HTML/CSS → PDF），提供五套模板 + 配色 + 可选证件照。
 模板使用离线字体回退和固定打印 CSS，不依赖 Typora、浏览器打印、CDN 或远程字体。
 
-## 环境要求（重要）
+## 环境要求
 
-渲染必须用 **Homebrew 的 Python**：`/opt/homebrew/bin/python3.13`。
-本机 anaconda 的 Python 会让 WeasyPrint 崩溃（glib 冲突），Chrome 无头打印也不可用，都不要用。
-首次缺依赖时：
+使用已安装 WeasyPrint 等依赖的 Python 3 解释器。以下命令以 `python3` 表示该解释器；
+如果用户使用虚拟环境或平台特定路径，应替换为对应命令。首次缺依赖时：
 ```bash
-/opt/homebrew/bin/python3.13 -m pip install --break-system-packages weasyprint jinja2 python-frontmatter pyyaml openpyxl
+python3 -m pip install weasyprint jinja2 python-frontmatter pyyaml openpyxl
 ```
 
 ## 四步工作流
@@ -29,7 +28,7 @@ description: >-
 
 - **已有表格**（「分类,字段名,值」格式的 CSV/xlsx）：
   ```bash
-  /opt/homebrew/bin/python3.13 scripts/csv_to_md.py 用户的表格.csv -o resume.md
+  python3 scripts/csv_to_md.py 用户的表格.csv -o resume.md
   ```
   可先用 `assets/resume.example.csv` 验证导入链路。
 - **没有表格**：按 `references/field-schema.md` 的结构对话采集。采集经历时用 **STAR 思路追问**——
@@ -55,9 +54,9 @@ description: >-
 
 参考 `references/templates-guide.md` 选模板（追求稳定紧凑 → compact；海投/ATS → classic）：
 ```bash
-/opt/homebrew/bin/python3.13 scripts/render.py resume.md --template compact --accent teal --out resume.pdf
-/opt/homebrew/bin/python3.13 scripts/render.py resume.md --template modern --accent teal --out resume.pdf
-/opt/homebrew/bin/python3.13 scripts/render.py resume.md --template modern --accent orange --out resume-orange.pdf
+python3 scripts/render.py resume.md --template compact --accent teal --out resume.pdf
+python3 scripts/render.py resume.md --template modern --accent teal --out resume.pdf
+python3 scripts/render.py resume.md --template modern --accent orange --out resume-orange.pdf
 ```
 - `compact`：Markdown 文档流风格，单栏紧凑、分页可预测，适合多数中文技术简历。
 - `classic`：单栏黑白、ATS 最稳、海投首选（默认；纯黑白不受配色影响）。
