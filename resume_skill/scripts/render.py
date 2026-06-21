@@ -5,7 +5,7 @@ resume.md 的约定（详见 references/field-schema.md）：
 - YAML front matter：放姓名、联系方式、求职意向、个人简介等原子字段。
 - 正文用 `## ` 分节（教育背景 / 实习经历 / 项目经验 / 专业技能 / 荣誉奖项 …）。
 - 每节内用 `### ` 表示一条「经历条目」，标题里用 ` | ` 分隔正标题与时间/地点等元信息，
-  正标题内可用 ` · ` 分隔（如「云杉科技 · 智能平台部 · 后端开发实习生」）。
+  正标题内可用 ` · `、`・` 或 `•` 分隔（如「云杉科技 · 智能平台部 · 后端开发实习生」）。
 - `- ` 开头的行是要点（bullet）。没有 `### ` 的节（如技能）直接由要点组成。
 
 渲染后端用 WeasyPrint（纯 Python，无需浏览器，对中文与打印 CSS 支持好）。
@@ -27,6 +27,7 @@ from markupsafe import Markup
 SCRIPT_DIR = Path(__file__).resolve().parent
 SKILL_DIR = SCRIPT_DIR.parent
 TEMPLATES_DIR = SKILL_DIR / "assets" / "templates"
+BASE_STYLE_PATH = SKILL_DIR / "assets" / "styles" / "resume-base.css"
 
 
 def die(msg):
@@ -84,7 +85,7 @@ def parse_entry_heading(line):
     heading_parts = re.split(r"\s*[|｜]\s*", line, maxsplit=1)
     left = heading_parts[0]
     meta = heading_parts[1] if len(heading_parts) > 1 else ""
-    parts = [p.strip() for p in re.split(r"\s*·\s*", left) if p.strip()]
+    parts = [p.strip() for p in re.split(r"\s*[·・•]\s*", left) if p.strip()]
     return {"title_parts": parts, "meta": meta.strip()}
 
 
@@ -150,15 +151,26 @@ ACCENT_PRESETS = {
 }
 
 
+def available_templates():
+    """返回真正可渲染的模板目录，忽略辅助目录和零散文件。"""
+    return sorted(
+        p.name
+        for p in TEMPLATES_DIR.iterdir()
+        if p.is_dir() and (p / "resume.html.j2").is_file()
+    )
+
+
 def render_html(meta, sections, template_name, accent=None):
     import jinja2
 
     tdir = TEMPLATES_DIR / template_name
     if not (tdir / "resume.html.j2").exists():
-        avail = ", ".join(p.name for p in TEMPLATES_DIR.iterdir() if p.is_dir())
+        avail = ", ".join(available_templates())
         die(f"找不到模板 '{template_name}'。可用模板：{avail}")
 
-    css = (tdir / "style.css").read_text(encoding="utf-8") if (tdir / "style.css").exists() else ""
+    base_css = BASE_STYLE_PATH.read_text(encoding="utf-8") if BASE_STYLE_PATH.exists() else ""
+    template_css = (tdir / "style.css").read_text(encoding="utf-8") if (tdir / "style.css").exists() else ""
+    css = f"{base_css}\n{template_css}"
 
     # 配色覆盖：把 --accent 重定义追加到 css 末尾（后定义生效）
     if accent:
@@ -194,7 +206,12 @@ def html_to_pdf(html_string, pdf_path, base_url):
 def main():
     ap = argparse.ArgumentParser(description="resume.md -> HTML -> PDF (WeasyPrint)")
     ap.add_argument("md", help="resume.md 路径")
-    ap.add_argument("--template", "-t", default="classic", help="模板名 (classic/modern/timeline/minimal)")
+    ap.add_argument(
+        "--template",
+        "-t",
+        default="classic",
+        help="模板名 (" + "/".join(available_templates()) + ")",
+    )
     ap.add_argument("--accent", "-a", default=None,
                     help="配色：预设名 (blue/teal/wine/ink/purple/green/orange) 或 #rrggbb。classic 为纯黑白，不受影响")
     ap.add_argument("--out", "-o", default=None, help="输出 PDF 路径")

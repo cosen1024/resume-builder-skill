@@ -4,4 +4,4 @@ interface:
   default_prompt: "使用 $resume-builder 根据我的真实经历生成一份简洁、量化且适合目标岗位的中文简历。"
 
 policy:
-  allow_implicit_invocation: true
+  allow_implicit_invocation: false

@@ -83,6 +83,20 @@ class CsvToMarkdownTests(unittest.TestCase):
 
         self.assertEqual(rows[1], ["基本信息", "姓名", "库森"])
 
+    def test_xlsx_rejects_numeric_values_beyond_excel_precision(self):
+        import openpyxl
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "resume.xlsx"
+            workbook = openpyxl.Workbook()
+            sheet = workbook.active
+            sheet.append(["分类", "字段名", "值"])
+            sheet.append(["基本信息", "身份证号", 330100199901010000])
+            workbook.save(path)
+
+            with self.assertRaisesRegex(SystemExit, "设为“文本”"):
+                csv_to_md.read_rows(path)
+
     def test_private_id_is_commented_out(self):
         md = csv_to_md.to_markdown(
             {"name": "库森", "id_number": "330100199901010000"},
@@ -97,6 +111,12 @@ class CsvToMarkdownTests(unittest.TestCase):
 
 
 class RenderTests(unittest.TestCase):
+    def test_template_discovery_only_returns_renderable_templates(self):
+        self.assertEqual(
+            render.available_templates(),
+            ["classic", "compact", "minimal", "modern", "timeline"],
+        )
+
     def test_html_escapes_metadata_titles_and_headings(self):
         meta = {"name": "<测试 & 用户>", "intent": "研发 <后端>"}
         sections = [{
@@ -126,6 +146,7 @@ class RenderTests(unittest.TestCase):
     def test_heading_accepts_ascii_or_fullwidth_separators_without_spaces(self):
         ascii_heading = render.parse_entry_heading("### 公司|2024.01-2024.06")
         fullwidth_heading = render.parse_entry_heading("### 公司·部门｜2024.01-2024.06")
+        alternate_heading = render.parse_entry_heading("### 公司・部门•岗位 | 2025.01-2025.06")
 
         self.assertEqual(ascii_heading, {
             "title_parts": ["公司"],
@@ -134,6 +155,10 @@ class RenderTests(unittest.TestCase):
         self.assertEqual(fullwidth_heading, {
             "title_parts": ["公司", "部门"],
             "meta": "2024.01-2024.06",
+        })
+        self.assertEqual(alternate_heading, {
+            "title_parts": ["公司", "部门", "岗位"],
+            "meta": "2025.01-2025.06",
         })
 
     def test_invalid_accent_is_rejected(self):
@@ -151,8 +176,19 @@ class RenderTests(unittest.TestCase):
         output = render.render_html({}, [], "modern", accent="#1f6feb")
         self.assertIn(":root { --accent: #1f6feb; }", output)
 
+    def test_classic_template_remains_accent_independent(self):
+        classic_css = (
+            SKILL_DIR / "assets" / "templates" / "classic" / "style.css"
+        ).read_text(encoding="utf-8")
+        compact_css = (
+            SKILL_DIR / "assets" / "templates" / "compact" / "style.css"
+        ).read_text(encoding="utf-8")
+
+        self.assertNotIn("var(--accent)", classic_css)
+        self.assertIn("var(--accent)", compact_css)
+
     def test_optional_photo_is_rendered_by_supported_templates(self):
-        for template in ("classic", "modern", "minimal"):
+        for template in ("classic", "compact", "modern", "minimal"):
             with self.subTest(template=template):
                 output = render.render_html({"name": "库森", "photo": "avatar.png"}, [], template)
                 self.assertIn('src="avatar.png"', output)
@@ -166,7 +202,7 @@ class RenderTests(unittest.TestCase):
             "intent": "后端开发工程师",
             "intent_detail": "期望地点：杭州 · 到岗时间：2026.06",
         }
-        for template in ("classic", "modern", "timeline", "minimal"):
+        for template in render.available_templates():
             with self.subTest(template=template):
                 output = render.render_html(meta, [], template)
                 self.assertIn("期望地点：杭州", output)
@@ -190,13 +226,29 @@ class RenderTests(unittest.TestCase):
         meta, sections = render.parse_resume(md_path)
         render.validate_resume(meta, sections)
 
-        for template in ("classic", "modern", "timeline", "minimal"):
+        for template in render.available_templates():
             with self.subTest(template=template):
                 html = render.render_html(meta, sections, template)
                 document = HTML(string=html, base_url=str(md_path.parent)).render()
                 self.assertEqual(len(document.pages), 1)
                 self.assertAlmostEqual(document.pages[0].width, 793.7, delta=1)
                 self.assertAlmostEqual(document.pages[0].height, 1122.5, delta=1)
+
+    def test_long_resume_paginates_to_multiple_a4_pages(self):
+        from weasyprint import HTML
+
+        md_path = SKILL_DIR / "assets" / "resume.example.md"
+        meta, sections = render.parse_resume(md_path)
+        long_sections = sections * 3
+
+        for template in render.available_templates():
+            with self.subTest(template=template):
+                html = render.render_html(meta, long_sections, template)
+                document = HTML(string=html, base_url=str(md_path.parent)).render()
+                self.assertGreaterEqual(len(document.pages), 2)
+                for page in document.pages:
+                    self.assertAlmostEqual(page.width, 793.7, delta=1)
+                    self.assertAlmostEqual(page.height, 1122.5, delta=1)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{ meta.name }} · 简历</title>
+<style>{{ css }}</style>
+</head>
+<body>
+<main class="page">
+  <header class="hd">
+    <div class="identity">
+      <h1 class="name">{{ meta.name }}</h1>
+      {% if meta.intent %}<div class="intent">{{ meta.intent }}</div>{% endif %}
+      {% if meta.intent_detail %}<div class="intent-detail">{{ meta.intent_detail }}</div>{% endif %}
+    </div>
+    <div class="contact">
+      {% if meta.phone %}<span>{{ meta.phone }}</span>{% endif %}
+      {% if meta.email %}<span>{{ meta.email }}</span>{% endif %}
+      {% if meta.location %}<span>{{ meta.location }}</span>{% endif %}
+      {% if meta.gender or meta.birth %}<span>{{ [meta.gender, meta.birth] | select | join(' · ') }}</span>{% endif %}
+    </div>
+    {% if meta.photo %}<img class="photo" src="{{ meta.photo }}" alt="photo">{% endif %}
+  </header>
+
+  {% if meta.summary %}
+  <section class="summary">
+    <p>{{ meta.summary }}</p>
+  </section>
+  {% endif %}
+
+  {% for sec in sections %}
+  <section class="sec">
+    <h2 class="sec-title">{{ sec.title }}</h2>
+    {% if sec.bullets %}
+    <ul class="plain">
+      {% for b in sec.bullets %}<li>{{ b }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+    {% for e in sec.entries %}
+    <article class="entry">
+      <div class="entry-head">
+        <div class="entry-title">
+          {% if e.title_parts %}<strong>{{ e.title_parts[0] }}</strong>{% endif %}
+          {% if e.title_parts|length > 1 %}<span class="entry-sub">{{ e.title_parts[1:] | join(' · ') }}</span>{% endif %}
+        </div>
+        {% if e.meta %}<div class="entry-meta">{{ e.meta }}</div>{% endif %}
+      </div>
+      {% if e.bullets %}
+      <ul>
+        {% for b in e.bullets %}<li>{{ b }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </section>
+  {% endfor %}
+</main>
+</body>
+</html>

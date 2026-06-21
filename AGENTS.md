@@ -24,7 +24,7 @@ Do not use Anaconda Python for WeasyPrint and do not replace WeasyPrint with Chr
 1. Read `resume_skill/SKILL.md` and the relevant file under `resume_skill/references/`.
 2. Add or update a regression test in `resume_skill/evals/test_resume_skill.py` for behavior changes.
 3. Keep the Markdown data format backwards compatible unless the change is explicitly documented.
-4. Render all four templates after layout changes.
+4. Render all five templates after layout changes.
 5. Keep generated HTML/PDF files under `/tmp` or `output/`; do not add them to the repository.
 
 ## Required verification
@@ -37,4 +37,4 @@ Do not use Anaconda Python for WeasyPrint and do not replace WeasyPrint with Chr
 ```
 
 For template changes, additionally render `resume_skill/assets/resume.example.md` with
-`classic`, `modern`, `timeline`, and `minimal`, then inspect the PDFs visually.
+`compact`, `classic`, `modern`, `timeline`, and `minimal`, then inspect the PDFs visually.

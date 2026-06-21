@@ -1,0 +1,174 @@
+/*
+ * compact —— 借鉴普通 Markdown 文档的单栏信息流，但使用原创结构与离线 CSS。
+ * 目标：少装饰、密度适中、分页可预测、ATS 友好。
+ */
+@page {
+  size: A4;
+  margin: 12mm 15mm;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --accent: #2f6f73;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text);
+  font-size: 10pt;
+  line-height: 1.48;
+}
+
+.page {
+  width: 180mm;
+  margin: 0 auto;
+}
+
+.hd {
+  display: table;
+  width: 100%;
+  padding-bottom: 7px;
+  border-bottom: 1.5px solid var(--accent);
+}
+
+.identity,
+.contact,
+.photo {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.identity {
+  width: 48%;
+}
+
+.name {
+  font-size: 21pt;
+  line-height: 1.15;
+  letter-spacing: 1.5px;
+}
+
+.intent {
+  margin-top: 3px;
+  font-size: 10.5pt;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.intent-detail {
+  margin-top: 1px;
+  font-size: 8.9pt;
+  color: var(--muted);
+}
+
+.contact {
+  padding-right: 6mm;
+  text-align: right;
+  color: #555;
+  font-size: 9pt;
+  line-height: 1.55;
+}
+
+.contact span {
+  display: block;
+}
+
+.photo {
+  width: 25mm;
+  height: 33mm;
+  margin-left: 6mm;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.summary {
+  margin: 6px 0 2px;
+  color: #444;
+  font-size: 9.5pt;
+}
+
+.sec {
+  margin-top: 8px;
+}
+
+.sec-title {
+  padding-bottom: 2px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--rule);
+  color: var(--accent);
+  font-size: 11.5pt;
+  line-height: 1.35;
+}
+
+.entry {
+  margin-bottom: 5px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.entry-head {
+  display: table;
+  width: 100%;
+}
+
+.entry-title,
+.entry-meta {
+  display: table-cell;
+  vertical-align: baseline;
+}
+
+.entry-title strong {
+  font-size: 10.4pt;
+}
+
+.entry-sub {
+  margin-left: 5px;
+  color: #555;
+  font-size: 9.7pt;
+}
+
+.entry-meta {
+  width: 1%;
+  padding-left: 8px;
+  text-align: right;
+  white-space: nowrap;
+  color: var(--muted);
+  font-size: 8.9pt;
+}
+
+ul {
+  margin-top: 2px;
+  list-style: none;
+}
+
+li {
+  position: relative;
+  padding-left: 12px;
+  margin-bottom: 1px;
+}
+
+li::before {
+  content: "•";
+  position: absolute;
+  left: 1px;
+  color: var(--accent);
+}
+
+ul.plain li {
+  padding-left: 0;
+}
+
+ul.plain li::before {
+  content: "";
+}
+
+code {
+  padding: 0 2px;
+  background: #f3f3f3;
+  font-size: 9pt;
+}

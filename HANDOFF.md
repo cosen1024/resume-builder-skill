@@ -16,9 +16,11 @@ resume.md (front matter + ## 分节)
 resume.pdf  (A4)
 ```
 - 内容源 = `resume.md`：YAML front matter 放原子字段（姓名/联系方式/intent/summary/可选 photo），正文用 `## ` 分节、`### ` 表条目、`- ` 要点。
-- 4 套布局：`classic`(单栏黑白/ATS) `modern`(侧栏色块) `timeline`(时间线) `minimal`(极简纯白)。
+- 5 套布局：`compact`(Markdown 文档流/稳定紧凑) `classic`(单栏黑白/ATS)
+  `modern`(侧栏色块) `timeline`(时间线) `minimal`(极简纯白)。
+- `assets/styles/resume-base.css` 提供离线字体回退与打印基线；不依赖远程字体或浏览器插件。
 - 配色 `--accent`：blue/teal/wine/ink/purple/green/orange 或 `#rrggbb`（classic 恒黑白）。
-- 证件照 `photo:` 字段，默认不填；classic/modern/minimal 会渲染。
+- 证件照 `photo:` 字段，默认不填；compact/classic/modern/minimal 会渲染。
 
 ## 3. ⚠️ 关键约束（最容易踩坑，务必先读）
 **渲染必须用 Homebrew 的 Python：`/opt/homebrew/bin/python3.13`。**
@@ -38,12 +40,15 @@ resume_skill/
 ├── references/
 │   ├── writing-principles.md        # STAR/XYZ、量化、动词、校招vs社招、ATS、隐私、常见错误
 │   ├── field-schema.md              # resume.md 格式约定 + CSV 字段映射（含 photo）
-│   ├── templates-guide.md           # 4 模板 + 配色 + 证件照怎么选
+│   ├── templates-guide.md           # 5 模板 + 配色 + 证件照怎么选
+│   ├── visual-design-system.md      # 字体/字号/A4/颜色/照片/验收规范
 │   └── role-presets.md              # 各岗位推荐小节顺序/侧重/技能线（JD 定向用）
 └── assets/
+    ├── styles/resume-base.css       # 共享离线打印基线
     ├── resume.example.csv           # 可直接验证导入链路的三列表格
     ├── resume.example.md            # 按最佳实践写好的范例（gold standard）
-    └── templates/{classic,modern,timeline,minimal}/  (resume.html.j2 + style.css)
+    ├── examples/demo-avatar.svg     # 仓库原创演示头像，MIT 许可
+    └── templates/{compact,classic,modern,timeline,minimal}/  (resume.html.j2 + style.css)
 ```
 参考素材（非 skill 一部分）：`reference/`（其它 3 个简历 skill）、`template/`（mujicv/markdown-resume 原始模板）。
 
@@ -53,15 +58,16 @@ resume_skill/
 - 岗位差异（算法/前端/产品…）做成 `role-presets.md` 内容参考，而非 37 个视觉模板。
 
 ## 6. 已验证（我这边）
-- 4 套模板渲染 PDF 均成功、中文正常；accent 覆盖生效（如 timeline+purple、modern+wine）；photo 生效。
-- 当前示例在四套模板中均应保持 1 页 A4。
+- 5 套模板渲染 PDF 均成功、中文正常；accent 覆盖生效（如 compact+teal、modern+wine）；photo 生效。
+- 当前示例在五套模板中均应保持 1 页 A4。
 
 ## 7. Review / 测试清单（请 Codex 执行）
 用 `BP=/opt/homebrew/bin/python3.13` 跑：
 1. **自动化回归**：`$BP -m unittest resume_skill/evals/test_resume_skill.py -v`。
-2. **四套渲染**：对 `resume_skill/assets/resume.example.md` 分别 `--template classic/modern/timeline/minimal`，打开 PDF 核对：中文不乱码、布局正确、A4 分页合理。
+2. **五套渲染**：对 `resume_skill/assets/resume.example.md` 分别
+   `--template compact/classic/modern/timeline/minimal`，打开 PDF 核对：中文不乱码、布局正确、A4 分页合理。
 3. **配色**：`--template modern --accent orange`、`--accent "#1f6feb"` → 主色是否随之变化；`classic` 加 `--accent` 应无变化（预期）。
-4. **证件照**：front matter 加 `photo: <某图>` → classic/modern/minimal 是否显示，删字段是否消失。
+4. **证件照**：front matter 加 `photo: <某图>` → compact/classic/modern/minimal 是否显示，删字段是否消失。
 5. **通用润色**：丢一段"负责/参与"流水账，验证是否被改写成 STAR/XYZ + 量化、动词开头（依据 writing-principles.md）。
 6. **JD 定向**：贴一份 JD → 是否输出匹配度小结（命中/缺失关键词）+ 按 role-presets 调整结构与措辞，且不编造。
 
@@ -73,3 +79,9 @@ resume_skill/
 
 ## 8. 可继续扩展（按需）
 - 中英双语版；更多 role-presets 岗位；把"校招1页"做成自动篇幅压缩检查；真·深色主题（注意打印耗墨与 ATS）。
+
+## 9. 发布状态
+- 发布前独立审查说明：`RELEASE_REVIEW.md`。
+- 根目录使用 MIT License。
+- 演示头像为仓库原创 SVG，随项目按 MIT License 发布。
+- 目标 remote：`https://github.com/cosen1024/resume-builder-skill.git`。

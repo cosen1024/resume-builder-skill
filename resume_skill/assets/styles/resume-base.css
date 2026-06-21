@@ -1,0 +1,43 @@
+/*
+ * 所有模板共用的离线打印基线。
+ * 不加载 Google Fonts、CDN 或浏览器扩展资源，保证 WeasyPrint 在无网络环境下稳定渲染。
+ * 每个模板仍可覆盖字体、字号、页边距和颜色。
+ */
+:root {
+  --font-sans: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB",
+    "Noto Sans CJK SC", "Source Han Sans SC", Arial, sans-serif;
+  --font-serif: "Songti SC", "STSong", "Noto Serif CJK SC",
+    "Source Han Serif SC", serif;
+  --font-mono: "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
+  --text: #222;
+  --muted: #666;
+  --rule: #d7d7d7;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  overflow-wrap: anywhere;
+  text-rendering: optimizeLegibility;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+strong {
+  font-weight: 700;
+}
+
+code {
+  font-family: var(--font-mono);
+}

@@ -46,6 +46,7 @@ META_KEYS = {
 }
 
 PRIVATE_KEYS = {"id_number"}
+EXCEL_MAX_EXACT_INTEGER = 10 ** 15
 
 
 def split_lines(value):
@@ -67,6 +68,19 @@ def strip_digit_suffix(category):
     return re.sub(r"\d+$", "", category)
 
 
+def xlsx_cell_to_text(cell):
+    """转换 xlsx 单元格；拒绝 Excel 无法精确保存的超长数值。"""
+    value = cell.value
+    if value is None:
+        return ""
+    if isinstance(value, (int, float)) and abs(value) >= EXCEL_MAX_EXACT_INTEGER:
+        sys.exit(
+            f"[csv_to_md] xlsx 单元格 {cell.coordinate} 含 16 位以上数字。"
+            "Excel 数值格式可能已丢失精度，请把手机号/身份证号等字段设为“文本”后重新保存。"
+        )
+    return str(value)
+
+
 def read_rows(path):
     path = Path(path)
     suffix = path.suffix.lower()
@@ -81,9 +95,9 @@ def read_rows(path):
         wb = openpyxl.load_workbook(str(path), read_only=True, data_only=True)
         ws = wb.active
         rows = []
-        for r in ws.iter_rows(values_only=True):
-            if r and any(c is not None for c in r):
-                rows.append([("" if c is None else str(c)) for c in r[:3]])
+        for r in ws.iter_rows(min_col=1, max_col=3):
+            if r and any(c.value is not None for c in r):
+                rows.append([xlsx_cell_to_text(c) for c in r])
         return rows
     else:
         with open(path, newline="", encoding="utf-8-sig") as f:

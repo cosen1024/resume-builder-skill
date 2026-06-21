@@ -1,17 +1,18 @@
 ---
 name: resume-builder
 description: >-
-  根据个人信息生成美观的中文简历（校招/社招通用），支持 classic/modern/timeline/minimal 四套可切换模板、多种配色与可选证件照，
+  根据个人信息生成美观的中文简历（校招/社招通用），支持 compact/classic/modern/timeline/minimal 五套可切换模板、多种配色与可选证件照，
   以 Markdown 为内容源、渲染成 PDF 导出；并能按 STAR/量化等最佳实践润色，或针对目标岗位 JD 做定向改写与匹配度分析。
-  Use whenever the user wants to 写简历/做简历/生成简历/制作简历/简历模板/简历润色/优化简历/改简历/简历排版/导出简历PDF,
-  build/write/polish/tailor a resume or CV, convert resume info to PDF, or adapt a resume to a job description (JD/岗位/招聘要求)——
-  在求职、岗位申请或简历语境中，即使用户只说"帮我整理一下我的经历""这段经历怎么写更好""按这个岗位改改"也应触发。
+  仅在用户明确要求写简历、做简历、简历润色、简历排版、导出简历 PDF，或针对求职岗位/JD 调整履历时使用。
+  Use only for explicit resume/CV creation, polishing, formatting, PDF export, or job-description tailoring requests.
+  不要用于一般性的个人传记、项目复盘、会议经历整理或与求职无关的写作。
 ---
 
 # 简历生成器 resume-builder
 
 帮用户把个人信息做成一份**美观、可量化、与岗位对齐**的中文简历，并渲染成 PDF。
-内容源是 `resume.md`（Markdown），渲染后端是 WeasyPrint（HTML/CSS → PDF），提供四套模板 + 配色 + 可选证件照。
+内容源是 `resume.md`（Markdown），渲染后端是 WeasyPrint（HTML/CSS → PDF），提供五套模板 + 配色 + 可选证件照。
+模板使用离线字体回退和固定打印 CSS，不依赖 Typora、浏览器打印、CDN 或远程字体。
 
 ## 环境要求（重要）
 
@@ -47,23 +48,27 @@ description: >-
 - 按**校招 vs 社招**调整顺序与详略（校招重教育/竞赛/潜力；社招重成果/职责深度）。
 - 守**一页原则**（校招原则 1 页）。
 
-`assets/resume.example.md` 是一份按这些原则写好的范例，可作为措辞与密度的参照。
+`assets/resume.example.md` 是一份按这些原则写好的虚构范例，可作为措辞与密度的参照；
+其原创 `examples/demo-avatar.svg` 仅用于验证照片裁切和排版。
 
 ### 第 3 步：选模板渲染 PDF
 
-参考 `references/templates-guide.md` 选模板（拿不准 → classic）：
+参考 `references/templates-guide.md` 选模板（追求稳定紧凑 → compact；海投/ATS → classic）：
 ```bash
+/opt/homebrew/bin/python3.13 scripts/render.py resume.md --template compact --accent teal --out resume.pdf
 /opt/homebrew/bin/python3.13 scripts/render.py resume.md --template modern --accent teal --out resume.pdf
 /opt/homebrew/bin/python3.13 scripts/render.py resume.md --template modern --accent orange --out resume-orange.pdf
 ```
+- `compact`：Markdown 文档流风格，单栏紧凑、分页可预测，适合多数中文技术简历。
 - `classic`：单栏黑白、ATS 最稳、海投首选（默认；纯黑白不受配色影响）。
 - `modern`：侧栏 + 色块标题，现代观感，互联网岗。
 - `timeline`：左侧时间线竖轴，适合经历密集者。
 - `minimal`：极简纯白、大留白，适合精炼/设计感。
-- 配色 `--accent`：blue/teal/wine/ink/purple/green/orange 或 `#rrggbb`（仅 modern/timeline/minimal 生效）。
+- 配色 `--accent`：blue/teal/wine/ink/purple/green/orange 或 `#rrggbb`（compact/modern/timeline/minimal 生效）。
 - 证件照：在 front matter 加 `photo: 路径`，默认不放（投外企建议不放）。
 
-调样式：`--html-only` 先出 HTML 看效果，或直接改对应模板的 `style.css`（主色 `--accent`、字号、留白都在里面）重渲染。
+调样式：先阅读 `references/visual-design-system.md`，再用 `--html-only` 输出 HTML，
+或修改对应模板的 `style.css`。共享字体与打印基线位于 `assets/styles/resume-base.css`。
 渲染后**务必打开 PDF 检查**：中文是否正常、是否一页、有无溢出或截断。
 
 ### 第 4 步：（可选）针对岗位定向润色
@@ -85,7 +90,10 @@ description: >-
 - `scripts/render.py` — resume.md + 模板 → HTML → PDF（WeasyPrint）
 - `references/writing-principles.md` — STAR/量化/动词/校招vs社招/ATS/隐私/常见错误
 - `references/field-schema.md` — resume.md 格式（含 photo 字段）与 CSV 映射
-- `references/templates-guide.md` — 四套模板 + 配色 + 证件照怎么选
+- `references/templates-guide.md` — 五套模板 + 配色 + 证件照怎么选
+- `references/visual-design-system.md` — 字体、字号、A4 尺度、颜色、照片和模板验收规范
 - `references/role-presets.md` — 各岗位推荐的小节顺序/侧重/技能线（录入与 JD 定向时用）
-- `assets/templates/{classic,modern,timeline,minimal}/` — 模板（`resume.html.j2` + `style.css`）
+- `assets/styles/resume-base.css` — 所有模板共享的离线打印基线
+- `assets/templates/{compact,classic,modern,timeline,minimal}/` — 模板（`resume.html.j2` + `style.css`）
 - `assets/resume.example.md` — 写好的范例
+- `assets/examples/demo-avatar.svg` — MIT 许可的原创范例头像，仅用于渲染演示
