@@ -1,15 +1,30 @@
+<div align="center">
+
 # resume-builder
 
-English | [简体中文](README.md)
+### From real experience to an application-ready A4 PDF resume
 
-`resume-builder` is a reusable resume-generation Skill for Codex, Claude Code, and other AI agents
-that can read `SKILL.md` and run local scripts. It is optimized for Chinese typography while also
-supporting English and bilingual resume content.
+For Codex, Claude Code, and other AI agents that can read `SKILL.md` and run local scripts.<br>
+Optimized for Chinese typography while supporting English and bilingual resumes.
 
-It handles both content improvement and deterministic rendering from one Markdown source into
-searchable, selectable A4 PDFs.
+<p>
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" alt="Python 3.10+">
+  <img src="https://img.shields.io/badge/Templates-5-0A7D6B" alt="5 templates">
+  <img src="https://img.shields.io/badge/Output-A4%20PDF-8A2433" alt="A4 PDF">
+  <img src="https://img.shields.io/badge/Agent-Agnostic-5B3B8C" alt="Agent agnostic">
+  <img src="https://img.shields.io/badge/License-Noncommercial-C65D21" alt="Noncommercial license">
+</p>
 
-## Highlights
+**Experience intake · STAR/XYZ rewriting · JD tailoring · Multi-layout rendering · Offline PDF export**
+
+[简体中文](README.md) · [Highlights](#-highlights) · [Previews](#-template-previews) ·
+[Installation](#-installation) · [Usage](#-usage) · [License](#-license)
+
+</div>
+
+---
+
+## ✨ Highlights
 
 - **End-to-end workflow**: collect experience, polish content, select a layout, and export PDF
 - **Truth-first writing**: ask for missing context and metrics without inventing claims
@@ -22,7 +37,7 @@ searchable, selectable A4 PDFs.
 - **Offline and searchable output**: no CDN, remote fonts, or online resume service required
 - **Privacy-aware defaults**: sensitive identity fields are excluded from the resume body
 
-## Template previews
+## 🖼️ Template previews
 
 | `compact` · dense | `classic` · ATS |
 |---|---|
@@ -40,7 +55,7 @@ All names, schools, companies, projects, awards, and figures in the previews are
 The avatar demonstrates optional photo placement; remove the `photo` field for a photo-free version.
 Click any preview to open the high-resolution image.
 
-## Installation
+## 📦 Installation
 
 ### Recommended: ask an AI agent to install it
 
@@ -82,7 +97,7 @@ Copy the complete `resume_skill/` folder into the agent's Skill directory. If th
 standard Skill directory, point it to `resume_skill/SKILL.md` and allow it to run the local commands
 under `scripts/`. Keep `assets/` and `references/` intact.
 
-## Python dependencies
+## 🐍 Python dependencies
 
 Python **3.10 or newer** is required. PDF rendering uses WeasyPrint by default:
 
@@ -114,7 +129,7 @@ This produces `resume.compact.html`. Open it in Chrome, Edge, or Safari, print t
 background graphics. Browser printing is an emergency fallback and may paginate slightly differently
 from WeasyPrint.
 
-## Usage
+## 🚀 Usage
 
 After installation, describe the task naturally. No special prefix or symbol is required:
 
@@ -134,7 +149,7 @@ Use resume-builder to tailor my resume to this job description and list matched 
 Use resume-builder to render this resume with both the compact and classic templates.
 ```
 
-## Templates
+## 🎨 Templates
 
 | Template | Style | Recommended use | Photo |
 |---|---|---|---|
@@ -152,7 +167,7 @@ blue / teal / wine / ink / purple / green / orange / #rrggbb
 
 `classic` always remains black and white.
 
-## Quick installation check
+## ✅ Quick installation check
 
 Use this command only to verify that dependencies, templates, and PDF rendering work:
 
@@ -167,7 +182,7 @@ python3 resume_skill/scripts/render.py \
 For real use, ask the agent to create or update `resume.md` from your own material, then render it
 with the same script.
 
-## Skill structure
+## 🗂️ Skill structure
 
 ```text
 resume_skill/
@@ -198,7 +213,7 @@ resume_skill/
     └── test_resume_skill.py         # Development regression tests (not runtime-required)
 ```
 
-## Limitations
+## 🧭 Limitations
 
 - Spreadsheet import supports `.csv` and `.xlsx`, but not legacy `.xls`
 - Markdown parsing is limited to the headings, entries, and inline syntax documented here
@@ -206,13 +221,13 @@ resume_skill/
 - JD matching and rewriting are performed by the invoking agent, not by a standalone scorer
 - A Playwright/Chromium backend is not bundled; use browser printing from HTML if WeasyPrint is unavailable
 
-## Tests
+## 🧪 Tests
 
 ```bash
 python3 -m unittest resume_skill/evals/test_resume_skill.py -v
 ```
 
-## License
+## ⚖️ License
 
 [PolyForm Noncommercial License 1.0.0](LICENSE)
 

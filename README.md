@@ -1,13 +1,30 @@
+<div align="center">
+
 # resume-builder
 
-[English](README.en.md) | 简体中文
+### 从真实经历到可直接投递的 A4 PDF 简历
 
-`resume-builder` 是一个可复用的简历生成 Skill，适用于 Codex、Claude Code，以及其他能够读取
-`SKILL.md`、调用本地脚本的 AI Agent。它对中文排版做了专门优化，也可处理英文或中英双语简历。
+适用于 Codex、Claude Code 和其他可读取 `SKILL.md`、运行本地脚本的 AI Agent。<br>
+中文排版优化，同时支持英文与中英双语简历。
 
-它不仅润色内容，还能把同一份 Markdown 简历稳定渲染成多种可复制、可搜索的 A4 PDF。
+<p>
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" alt="Python 3.10+">
+  <img src="https://img.shields.io/badge/Templates-5-0A7D6B" alt="5 templates">
+  <img src="https://img.shields.io/badge/Output-A4%20PDF-8A2433" alt="A4 PDF">
+  <img src="https://img.shields.io/badge/Agent-Agnostic-5B3B8C" alt="Agent agnostic">
+  <img src="https://img.shields.io/badge/License-Noncommercial-C65D21" alt="Noncommercial license">
+</p>
 
-## 核心特色
+**内容采集 · STAR/XYZ 润色 · JD 匹配 · 多模板排版 · 离线 PDF 导出**
+
+[English](README.en.md) · [核心特色](#-核心特色) · [模板效果](#-模板效果) ·
+[安装](#-安装) · [使用](#-使用) · [License](#-license)
+
+</div>
+
+---
+
+## ✨ 核心特色
 
 - **从经历到成品**：对话采集、内容润色、模板排版和 PDF 导出形成完整工作流
 - **真实信息优先**：通过追问补充背景、行动和结果，不擅自编造经历或数字
@@ -20,7 +37,7 @@
 - **离线稳定渲染**：不依赖 CDN、远程字体或在线简历网站，PDF 文本可搜索、可复制
 - **隐私默认收敛**：身份证号等敏感字段默认不进入简历正文
 
-## 模板效果
+## 🖼️ 模板效果
 
 | `compact` · 紧凑单栏 | `classic` · 黑白 ATS |
 |---|---|
@@ -37,7 +54,7 @@
 预览中的姓名、学校、公司、项目、奖项和数字均为虚构示例，不代表任何真实关联。
 头像用于展示可选照片布局；删除 `photo` 字段即可生成无头像版本。点击图片可查看高清原图。
 
-## 安装
+## 📦 安装
 
 ### 推荐：让 AI Agent 安装
 
@@ -78,7 +95,7 @@ cp -R resume_skill ~/.claude/skills/resume-builder
 目录，则让它读取 `resume_skill/SKILL.md`，并允许其调用 `scripts/` 中的本地命令。
 不要拆散 `assets/` 和 `references/`。
 
-## Python 依赖
+## 🐍 Python 依赖
 
 需要 **Python 3.10 或更高版本**。PDF 默认由 WeasyPrint 生成：
 
@@ -109,7 +126,7 @@ python3 resume_skill/scripts/render.py resume.md \
 输出文件为 `resume.compact.html`。使用 Chrome、Edge 或 Safari 打开后打印为 A4 PDF，
 并启用“背景图形”。浏览器打印可作为应急方案，但分页可能与 WeasyPrint 略有差异。
 
-## 使用
+## 🚀 使用
 
 安装后，直接自然描述任务即可，不需要特殊符号：
 
@@ -129,7 +146,7 @@ python3 resume_skill/scripts/render.py resume.md \
 请使用 resume-builder，把这份简历渲染成 compact 和 classic 两个版本。
 ```
 
-## 模板
+## 🎨 模板
 
 | 模板 | 风格 | 推荐场景 | 照片 |
 |---|---|---|---|
@@ -147,7 +164,7 @@ blue / teal / wine / ink / purple / green / orange / #rrggbb
 
 `classic` 始终保持黑白。
 
-## 快速验证安装
+## ✅ 快速验证安装
 
 下面的命令只用于确认依赖、模板和 PDF 渲染链路可用：
 
@@ -161,7 +178,7 @@ python3 resume_skill/scripts/render.py \
 
 正式使用时，应让 Agent 根据你的真实材料生成或修改 `resume.md`，再调用同一渲染脚本。
 
-## Skill 目录
+## 🗂️ Skill 目录
 
 ```text
 resume_skill/
@@ -192,7 +209,7 @@ resume_skill/
     └── test_resume_skill.py         # 开发回归测试（非运行必需）
 ```
 
-## 能力边界
+## 🧭 能力边界
 
 - 表格导入支持 `.csv` 和 `.xlsx`，不支持旧版 `.xls`
 - Markdown 只解析本项目约定的标题、条目和简单行内格式
@@ -200,13 +217,13 @@ resume_skill/
 - JD 匹配与内容润色由调用 Skill 的 Agent 完成，不是独立评分服务
 - 当前未内置 Playwright/Chromium 后端；WeasyPrint 不可用时可通过 HTML 使用浏览器打印
 
-## 测试
+## 🧪 测试
 
 ```bash
 python3 -m unittest resume_skill/evals/test_resume_skill.py -v
 ```
 
-## License
+## ⚖️ License
 
 [PolyForm Noncommercial License 1.0.0](LICENSE)
 
