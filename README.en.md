@@ -7,10 +7,11 @@ English | [简体中文](README.md)
 It turns real experience into a polished resume, tailors content to a job description, and renders
 one Markdown source into multiple searchable A4 PDF layouts.
 
-![High-resolution compact PDF preview](docs/images/resume-compact.png)
+![High-resolution compact PDF preview with an optional avatar](docs/images/resume-compact.png)
 
 All names, schools, companies, projects, awards, and figures in the preview are fictional examples.
-School names are used only to demonstrate layout and do not imply any affiliation.
+School names are used only to demonstrate layout and do not imply any affiliation. The avatar
+demonstrates optional photo placement; remove the `photo` field to render a photo-free version.
 
 ## Features
 
@@ -163,6 +164,7 @@ resume_skill/
 ├── assets/
 │   ├── resume.example.csv
 │   ├── resume.example.md
+│   ├── examples/
 │   ├── styles/
 │   └── templates/
 └── evals/

@@ -193,6 +193,9 @@ class RenderTests(unittest.TestCase):
                 output = render.render_html({"name": "库森", "photo": "avatar.png"}, [], template)
                 self.assertIn('src="avatar.png"', output)
 
+        classic = render.render_html({"name": "库森", "photo": "avatar.png"}, [], "classic")
+        self.assertIn('class="hd has-photo"', classic)
+
         timeline = render.render_html({"name": "库森", "photo": "avatar.png"}, [], "timeline")
         self.assertNotIn('src="avatar.png"', timeline)
 

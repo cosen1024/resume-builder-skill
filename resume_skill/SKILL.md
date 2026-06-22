@@ -47,7 +47,8 @@ python3 -m pip install weasyprint jinja2 python-frontmatter pyyaml openpyxl
 - 按**校招 vs 社招**调整顺序与详略（校招重教育/竞赛/潜力；社招重成果/职责深度）。
 - 守**一页原则**（校招原则 1 页）。
 
-`assets/resume.example.md` 是一份按这些原则写好的虚构范例，可作为措辞与密度的参照。
+`assets/resume.example.md` 是一份按这些原则写好的虚构范例，可作为措辞与密度的参照；
+其中包含 `assets/examples/demo-avatar.png`，用于演示可选照片排版。
 
 ### 第 3 步：选模板渲染 PDF
 
@@ -94,3 +95,4 @@ python3 scripts/render.py resume.md --template modern --accent orange --out resu
 - `assets/styles/resume-base.css` — 所有模板共享的离线打印基线
 - `assets/templates/{compact,classic,modern,timeline,minimal}/` — 模板（`resume.html.j2` + `style.css`）
 - `assets/resume.example.md` — 写好的范例
+- `assets/examples/demo-avatar.png` — 用户提供的照片排版演示图

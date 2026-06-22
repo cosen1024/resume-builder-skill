@@ -5,6 +5,7 @@ birth: 1999-11
 phone: 188-2675-4310
 email: kusen.dev@example.com
 location: 杭州市西湖区
+photo: examples/demo-avatar.png
 intent: 后端开发工程师 / 算法工程师
 intent_detail: 期望地点：杭州/上海 · 到岗时间：2026.06
 summary: >-
@@ -49,6 +50,6 @@ summary: >-
 - **其他能力**：PyTorch、OpenCV，熟悉目标检测与路径规划；英语 TOEFL 108
 
 ## 荣誉奖项
-- 2025.05 · 蓝桥杯全国软件和信息技术专业人才大赛 · 全国二等奖
-- 2024.11 · ACM-ICPC 国际大学生程序设计竞赛亚洲区域赛 · 铜奖
-- 2022.08 · RoboMaster 全国大学生机器人大赛区域赛 · 二等奖
+- 2025.05 · 蓝桥杯全国软件和信息技术专业人才大赛 · 全国一等奖
+- 2024.11 · ACM-ICPC 程序设计校赛 · 一等奖
+- 2022.08 · RoboMaster 校内选拔赛 · 一等奖

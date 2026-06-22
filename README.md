@@ -7,10 +7,10 @@
 它可以根据真实经历生成或润色简历，按目标岗位 JD 调整内容，并将同一份 Markdown
 内容渲染成多种 A4 PDF 模板。
 
-![compact 模板 PDF 高清预览](docs/images/resume-compact.png)
+![带可选头像的 compact 模板 PDF 高清预览](docs/images/resume-compact.png)
 
 预览中的姓名、学校、公司、项目、奖项和数字均为虚构示例；学校名称仅用于展示教育背景排版，
-不代表作者与相关院校存在关联。
+不代表作者与相关院校存在关联。头像用于展示可选照片布局；删除 `photo` 字段即可生成无头像版本。
 
 ## 功能
 
@@ -162,6 +162,7 @@ resume_skill/
 ├── assets/
 │   ├── resume.example.csv
 │   ├── resume.example.md
+│   ├── examples/
 │   ├── styles/
 │   └── templates/
 └── evals/

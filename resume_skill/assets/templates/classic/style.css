@@ -22,6 +22,9 @@ body {
 .summary { font-size: 10pt; color: #444; margin-top: 8px; text-align: left; line-height: 1.6; }
 .hd { position: relative; }
 .photo { position: absolute; right: 0; top: 0; width: 76px; height: 100px; object-fit: cover; border-radius: 3px; }
+.hd.has-photo .intent,
+.hd.has-photo .contact,
+.hd.has-photo .summary { padding-right: 88px; }
 
 /* 区块 */
 .sec { margin-bottom: 11px; }

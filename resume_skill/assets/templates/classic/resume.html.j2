@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="page">
-  <header class="hd">
+  <header class="hd{% if meta.photo %} has-photo{% endif %}">
     {% if meta.photo %}<img class="photo" src="{{ meta.photo }}" alt="photo">{% endif %}
     <h1 class="name">{{ meta.name }}</h1>
     {% if meta.intent or meta.intent_detail %}
