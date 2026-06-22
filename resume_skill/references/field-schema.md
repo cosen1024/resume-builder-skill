@@ -16,7 +16,7 @@ phone: 18826754310
 email: kusen.dev@example.com
 location: 杭州市西湖区
 hometown: 浙江省           # 可选，户籍所在地
-intent: 后端开发工程师      # 求职意向（标题），用于头部展示
+intent: AI Agent 开发工程师  # 求职意向（标题），用于头部展示
 intent_detail: 期望地点：杭州 · 到岗时间：2026.06   # 可选，附加信息
 summary: >-                # 个人简介/自我评价，校招可留、社招多删
   一句到三句话的概述……

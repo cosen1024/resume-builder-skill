@@ -2,17 +2,17 @@
 
 # resume-builder
 
-### 从真实经历到可直接投递的 A4 PDF 简历
+### 从真实经历到可直接投递的专业简历
 
 适用于 Codex、Claude Code 和其他可读取 `SKILL.md`、运行本地脚本的 AI Agent。<br>
 中文排版优化，同时支持英文与中英双语简历。
 
 <p>
-  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" alt="Python 3.10+">
-  <img src="https://img.shields.io/badge/Templates-5-0A7D6B" alt="5 templates">
-  <img src="https://img.shields.io/badge/Output-A4%20PDF-8A2433" alt="A4 PDF">
-  <img src="https://img.shields.io/badge/Agent-Agnostic-5B3B8C" alt="Agent agnostic">
-  <img src="https://img.shields.io/badge/License-Noncommercial-C65D21" alt="Noncommercial license">
+  <img src="https://img.shields.io/badge/Agent%20Skill-SKILL.md-5B3B8C" alt="Agent Skill">
+  <img src="https://img.shields.io/badge/Runtime-Codex%20%C2%B7%20Claude%20Code%20%C2%B7%20Other%20Agents-7B2CBF" alt="Supported agents">
+  <img src="https://img.shields.io/badge/Output-PDF%20%C2%B7%20HTML-087EA4" alt="PDF and HTML">
+  <img src="https://img.shields.io/badge/Layouts-5-0A7D6B" alt="5 layouts">
+  <img src="https://img.shields.io/badge/License-PolyForm%20NC-C65D21" alt="PolyForm Noncommercial">
 </p>
 
 **内容采集 · STAR/XYZ 润色 · JD 匹配 · 多模板排版 · 离线 PDF 导出**
@@ -30,9 +30,9 @@
 - **真实信息优先**：通过追问补充背景、行动和结果，不擅自编造经历或数字
 - **STAR / XYZ 润色**：把职责描述改写为有行动、有规模、有结果的简历要点
 - **JD 定向匹配**：提取岗位关键词，分析命中项与缺失项，并调整内容顺序和表达
-- **多场景适配**：支持校招、社招，以及后端、算法、前端、产品、运营等岗位侧重
+- **多场景适配**：支持校招、社招，以及 AI Agent、后端、算法、前端、产品、运营等岗位侧重
 - **多种输入方式**：支持对话、Markdown、CSV 和 xlsx
-- **5 套 A4 模板**：`compact`、`classic`、`modern`、`timeline`、`minimal`
+- **5 套专业模板**：`compact`、`classic`、`modern`、`timeline`、`minimal`
 - **照片与配色可选**：4 套模板支持头像，提供 7 种预设配色和自定义色值
 - **离线稳定渲染**：不依赖 CDN、远程字体或在线简历网站，PDF 文本可搜索、可复制
 - **隐私默认收敛**：身份证号等敏感字段默认不进入简历正文
@@ -68,8 +68,7 @@ https://github.com/cosen1024/resume-builder-skill.git
 运行时请保留 assets、references 和 scripts 目录。
 ```
 
-`SKILL.md`、`assets/`、`references/` 和 `scripts/` 是运行核心。`agents/` 用于部分平台的
-界面集成，`evals/` 用于回归测试；它们不是 PDF 渲染必需项，但仓库会保留以便完整发布和维护。
+`SKILL.md`、`assets/`、`references/` 和 `scripts/` 是运行核心，安装时请保持它们的目录结构。
 
 ### 手动安装到 Codex
 
@@ -131,7 +130,7 @@ python3 resume_skill/scripts/render.py resume.md \
 安装后，直接自然描述任务即可，不需要特殊符号：
 
 ```text
-请使用 resume-builder，根据我的真实经历生成一份后端开发校招简历。
+请使用 resume-builder，根据我的真实经历生成一份 AI Agent 开发校招简历。
 ```
 
 ```text
@@ -183,8 +182,6 @@ python3 resume_skill/scripts/render.py \
 ```text
 resume_skill/
 ├── SKILL.md                         # Agent 工作流与调用规则
-├── agents/
-│   └── openai.yaml                  # OpenAI/Codex 集成元数据（推荐，非运行必需）
 ├── scripts/
 │   ├── csv_to_md.py                 # CSV/xlsx 转 Markdown
 │   └── render.py                    # Markdown 渲染 HTML/PDF
@@ -205,8 +202,6 @@ resume_skill/
 │       ├── modern/
 │       ├── timeline/
 │       └── minimal/
-└── evals/
-    └── test_resume_skill.py         # 开发回归测试（非运行必需）
 ```
 
 ## 🧭 能力边界

@@ -2,17 +2,17 @@
 
 # resume-builder
 
-### From real experience to an application-ready A4 PDF resume
+### From real experience to an application-ready professional resume
 
 For Codex, Claude Code, and other AI agents that can read `SKILL.md` and run local scripts.<br>
 Optimized for Chinese typography while supporting English and bilingual resumes.
 
 <p>
-  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" alt="Python 3.10+">
-  <img src="https://img.shields.io/badge/Templates-5-0A7D6B" alt="5 templates">
-  <img src="https://img.shields.io/badge/Output-A4%20PDF-8A2433" alt="A4 PDF">
-  <img src="https://img.shields.io/badge/Agent-Agnostic-5B3B8C" alt="Agent agnostic">
-  <img src="https://img.shields.io/badge/License-Noncommercial-C65D21" alt="Noncommercial license">
+  <img src="https://img.shields.io/badge/Agent%20Skill-SKILL.md-5B3B8C" alt="Agent Skill">
+  <img src="https://img.shields.io/badge/Runtime-Codex%20%C2%B7%20Claude%20Code%20%C2%B7%20Other%20Agents-7B2CBF" alt="Supported agents">
+  <img src="https://img.shields.io/badge/Output-PDF%20%C2%B7%20HTML-087EA4" alt="PDF and HTML">
+  <img src="https://img.shields.io/badge/Layouts-5-0A7D6B" alt="5 layouts">
+  <img src="https://img.shields.io/badge/License-PolyForm%20NC-C65D21" alt="PolyForm Noncommercial">
 </p>
 
 **Experience intake · STAR/XYZ rewriting · JD tailoring · Multi-layout rendering · Offline PDF export**
@@ -30,9 +30,9 @@ Optimized for Chinese typography while supporting English and bilingual resumes.
 - **Truth-first writing**: ask for missing context and metrics without inventing claims
 - **STAR / XYZ rewriting**: turn duty lists into action- and outcome-oriented bullets
 - **JD tailoring**: extract keywords, identify gaps, and adjust wording and section order
-- **Multiple hiring scenarios**: campus, experienced, backend, AI, frontend, product, and operations
+- **Multiple hiring scenarios**: campus, experienced, AI Agent, backend, frontend, product, and operations
 - **Flexible input**: conversation, Markdown, CSV, and xlsx
-- **Five A4 layouts**: `compact`, `classic`, `modern`, `timeline`, and `minimal`
+- **Five professional layouts**: `compact`, `classic`, `modern`, `timeline`, and `minimal`
 - **Optional photos and colors**: four photo-capable layouts, seven presets, and custom colors
 - **Offline and searchable output**: no CDN, remote fonts, or online resume service required
 - **Privacy-aware defaults**: sensitive identity fields are excluded from the resume body
@@ -69,9 +69,8 @@ Install the complete resume_skill folder. Do not copy only SKILL.md.
 Keep assets, references, and scripts available at runtime.
 ```
 
-`SKILL.md`, `assets/`, `references/`, and `scripts/` are the runtime core. `agents/` provides optional
-platform metadata, while `evals/` contains regression tests. They are not required for PDF rendering,
-but remain in the repository for complete distribution and maintenance.
+`SKILL.md`, `assets/`, `references/`, and `scripts/` are the runtime core. Preserve their directory
+structure during installation.
 
 ### Manual Codex installation
 
@@ -134,7 +133,7 @@ from WeasyPrint.
 After installation, describe the task naturally. No special prefix or symbol is required:
 
 ```text
-Use resume-builder to create a concise campus resume for a backend engineering role from my real experience.
+Use resume-builder to create a concise campus resume for an AI Agent engineering role from my real experience.
 ```
 
 ```text
@@ -187,8 +186,6 @@ with the same script.
 ```text
 resume_skill/
 ├── SKILL.md                         # Agent workflow and invocation rules
-├── agents/
-│   └── openai.yaml                  # OpenAI/Codex metadata (recommended, not runtime-required)
 ├── scripts/
 │   ├── csv_to_md.py                 # CSV/xlsx to Markdown
 │   └── render.py                    # Markdown to HTML/PDF
@@ -209,8 +206,6 @@ resume_skill/
 │       ├── modern/
 │       ├── timeline/
 │       └── minimal/
-└── evals/
-    └── test_resume_skill.py         # Development regression tests (not runtime-required)
 ```
 
 ## 🧭 Limitations

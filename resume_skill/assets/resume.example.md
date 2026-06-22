@@ -6,7 +6,7 @@ phone: 188-2675-4310
 email: kusen.dev@example.com
 location: 杭州市西湖区
 photo: examples/demo-avatar.png
-intent: 后端开发工程师 / 算法工程师
+intent: AI 应用开发工程师 / AI Agent 开发工程师
 intent_detail: 期望地点：杭州/上海 · 到岗时间：2026.06
 ---
 
@@ -31,10 +31,10 @@ intent_detail: 期望地点：杭州/上海 · 到岗时间：2026.06
 
 ## 项目经验
 
-### 分布式任务调度与监控平台 · 核心开发者 | 2024.03 – 2025.02
-- 设计任务分片、失败重试与节点健康检测机制，在 20 节点测试集群中将任务吞吐提升 **42%**
-- 搭建可观测性与自动化评测流水线，将故障定位时间从 35 分钟缩短到 **8 分钟**
-- **成果**：项目获中国研究生工程实践创新大赛全国二等奖
+### 企业知识库 RAG 与 Agent 工作流平台 · 核心开发者 | 2024.03 – 2025.02
+- 设计文档解析、混合检索与重排序链路，将内部问答集 Recall@10 从 78.4% 提升至 **91.2%**
+- 基于 LangGraph 实现工具调用、状态管理与失败重试，将复杂任务成功率提升 **18.6%**
+- 搭建 Agent 链路追踪与自动化评测流水线，将问题定位时间从 35 分钟缩短到 **8 分钟**
 
 ### 校园机器人视觉导航系统 · 算法负责人 | 2022.03 – 2022.12
 - 带领 4 人小组完成目标检测、路径规划与串口通信模块，实现场地标志识别准确率 **96.1%**
@@ -42,10 +42,11 @@ intent_detail: 期望地点：杭州/上海 · 到岗时间：2026.06
 
 ## 专业技能
 - **编程语言**：Go、Java、Python、C++，熟悉并发编程、常用数据结构与算法
-- **后端技术**：Gin、Spring Boot、gRPC、RESTful API、Redis、Kafka
+- **AI 应用**：LangChain、LangGraph、RAG、向量检索、Prompt Engineering、模型 API 集成
+- **后端技术**：FastAPI、Gin、Spring Boot、gRPC、Redis、Kafka
 - **数据与系统**：MySQL、Linux、TCP/IP，了解分布式一致性、负载均衡与服务治理
 - **工程工具**：Git、Docker、Kubernetes、Prometheus、Grafana，具备单元测试与压测经验
-- **其他能力**：PyTorch、OpenCV，熟悉目标检测与路径规划；英语 TOEFL 108
+- **模型与算法**：PyTorch、OpenCV，熟悉 Embedding、重排序、目标检测与路径规划；英语 TOEFL 108
 
 ## 荣誉奖项
 - 2025.05 · 蓝桥杯全国软件和信息技术专业人才大赛全国总决赛 · 一等奖
