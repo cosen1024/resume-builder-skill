@@ -9,11 +9,6 @@ supporting English and bilingual resume content.
 It handles both content improvement and deterministic rendering from one Markdown source into
 searchable, selectable A4 PDFs.
 
-![High-resolution compact PDF preview with an optional avatar](preview/resume-compact.png)
-
-All names, schools, companies, projects, awards, and figures in the preview are fictional.
-The avatar demonstrates optional photo placement; remove the `photo` field for a photo-free version.
-
 ## Highlights
 
 - **End-to-end workflow**: collect experience, polish content, select a layout, and export PDF
@@ -27,6 +22,19 @@ The avatar demonstrates optional photo placement; remove the `photo` field for a
 - **Offline and searchable output**: no CDN, remote fonts, or online resume service required
 - **Privacy-aware defaults**: sensitive identity fields are excluded from the resume body
 
+## Template previews
+
+| `compact` · dense | `classic` · ATS | `modern` · sidebar |
+|---|---|---|
+| <img src="preview/resume-compact.png" alt="compact resume preview" width="260"> | <img src="preview/resume-classic.png" alt="classic resume preview" width="260"> | <img src="preview/resume-modern.png" alt="modern resume preview" width="260"> |
+
+| `timeline` · chronological | `minimal` · restrained |
+|---|---|
+| <img src="preview/resume-timeline.png" alt="timeline resume preview" width="260"> | <img src="preview/resume-minimal.png" alt="minimal resume preview" width="260"> |
+
+All names, schools, companies, projects, awards, and figures in the previews are fictional.
+The avatar demonstrates optional photo placement; remove the `photo` field for a photo-free version.
+
 ## Installation
 
 ### Recommended: ask an AI agent to install it
@@ -37,12 +45,13 @@ Give the repository and this prompt to a Skill-compatible agent:
 Install resume-builder from this repository:
 https://github.com/cosen1024/resume-builder-skill.git
 
-Install the complete resume_skill folder and preserve its agents, assets,
-references, scripts, and evals directories. Do not copy only SKILL.md.
+Install the complete resume_skill folder. Do not copy only SKILL.md.
+Keep assets, references, and scripts available at runtime.
 ```
 
-The complete directory structure is required because rendering depends on bundled templates, CSS,
-scripts, and writing references.
+`SKILL.md`, `assets/`, `references/`, and `scripts/` are the runtime core. `agents/` provides optional
+platform metadata, while `evals/` contains regression tests. They are not required for PDF rendering,
+but remain in the repository for complete distribution and maintenance.
 
 ### Manual Codex installation
 
@@ -138,7 +147,7 @@ with the same script.
 resume_skill/
 ├── SKILL.md                         # Agent workflow and invocation rules
 ├── agents/
-│   └── openai.yaml                  # OpenAI/Codex UI metadata
+│   └── openai.yaml                  # OpenAI/Codex metadata (recommended, not runtime-required)
 ├── scripts/
 │   ├── csv_to_md.py                 # CSV/xlsx to Markdown
 │   └── render.py                    # Markdown to HTML/PDF
@@ -160,7 +169,7 @@ resume_skill/
 │       ├── timeline/
 │       └── minimal/
 └── evals/
-    └── test_resume_skill.py         # Regression tests
+    └── test_resume_skill.py         # Development regression tests (not runtime-required)
 ```
 
 ## Limitations

@@ -7,11 +7,6 @@
 
 它不仅润色内容，还能把同一份 Markdown 简历稳定渲染成多种可复制、可搜索的 A4 PDF。
 
-![带可选头像的 compact 模板 PDF 高清预览](preview/resume-compact.png)
-
-预览中的姓名、学校、公司、项目、奖项和数字均为虚构示例，不代表任何真实关联。
-头像用于展示可选照片布局；删除 `photo` 字段即可生成无头像版本。
-
 ## 核心特色
 
 - **从经历到成品**：对话采集、内容润色、模板排版和 PDF 导出形成完整工作流
@@ -25,6 +20,19 @@
 - **离线稳定渲染**：不依赖 CDN、远程字体或在线简历网站，PDF 文本可搜索、可复制
 - **隐私默认收敛**：身份证号等敏感字段默认不进入简历正文
 
+## 模板效果
+
+| `compact` · 紧凑单栏 | `classic` · 黑白 ATS | `modern` · 彩色侧栏 |
+|---|---|---|
+| <img src="preview/resume-compact.png" alt="compact 简历效果" width="260"> | <img src="preview/resume-classic.png" alt="classic 简历效果" width="260"> | <img src="preview/resume-modern.png" alt="modern 简历效果" width="260"> |
+
+| `timeline` · 时间线 | `minimal` · 极简留白 |
+|---|---|
+| <img src="preview/resume-timeline.png" alt="timeline 简历效果" width="260"> | <img src="preview/resume-minimal.png" alt="minimal 简历效果" width="260"> |
+
+预览中的姓名、学校、公司、项目、奖项和数字均为虚构示例，不代表任何真实关联。
+头像用于展示可选照片布局；删除 `photo` 字段即可生成无头像版本。
+
 ## 安装
 
 ### 推荐：让 AI Agent 安装
@@ -35,11 +43,12 @@
 请从这个仓库安装 resume-builder：
 https://github.com/cosen1024/resume-builder-skill.git
 
-请安装完整的 resume_skill 文件夹，并保留 agents、assets、references、
-scripts 和 evals 目录。不要只复制 SKILL.md。
+请安装完整的 resume_skill 文件夹，不要只复制 SKILL.md。
+运行时请保留 assets、references 和 scripts 目录。
 ```
 
-关键规则：必须保留完整目录结构，因为模板、CSS、脚本和写作规范都在 `resume_skill/` 中。
+`SKILL.md`、`assets/`、`references/` 和 `scripts/` 是运行核心。`agents/` 用于部分平台的
+界面集成，`evals/` 用于回归测试；它们不是 PDF 渲染必需项，但仓库会保留以便完整发布和维护。
 
 ### 手动安装到 Codex
 
@@ -134,7 +143,7 @@ python3 resume_skill/scripts/render.py \
 resume_skill/
 ├── SKILL.md                         # Agent 工作流与调用规则
 ├── agents/
-│   └── openai.yaml                  # OpenAI/Codex 界面元数据
+│   └── openai.yaml                  # OpenAI/Codex 集成元数据（推荐，非运行必需）
 ├── scripts/
 │   ├── csv_to_md.py                 # CSV/xlsx 转 Markdown
 │   └── render.py                    # Markdown 渲染 HTML/PDF
@@ -156,7 +165,7 @@ resume_skill/
 │       ├── timeline/
 │       └── minimal/
 └── evals/
-    └── test_resume_skill.py         # 回归测试
+    └── test_resume_skill.py         # 开发回归测试（非运行必需）
 ```
 
 ## 能力边界
