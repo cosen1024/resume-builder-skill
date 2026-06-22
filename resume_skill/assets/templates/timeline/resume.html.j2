@@ -21,6 +21,7 @@
       {% if meta.phone %}{% set _ = bits.append(meta.phone) %}{% endif %}
       {% if meta.email %}{% set _ = bits.append(meta.email) %}{% endif %}
       {% if meta.location %}{% set _ = bits.append(meta.location) %}{% endif %}
+      {% if meta.hometown %}{% set _ = bits.append('户籍：' ~ meta.hometown) %}{% endif %}
       {% if meta.gender %}{% set _ = bits.append(meta.gender) %}{% endif %}
       {% if meta.birth %}{% set _ = bits.append(meta.birth) %}{% endif %}
       {{ bits | join('  ·  ') }}

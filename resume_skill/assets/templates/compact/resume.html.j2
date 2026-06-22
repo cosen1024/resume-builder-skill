@@ -17,6 +17,7 @@
       {% if meta.phone %}<span>{{ meta.phone }}</span>{% endif %}
       {% if meta.email %}<span>{{ meta.email }}</span>{% endif %}
       {% if meta.location %}<span>{{ meta.location }}</span>{% endif %}
+      {% if meta.hometown %}<span>户籍：{{ meta.hometown }}</span>{% endif %}
       {% if meta.gender or meta.birth %}<span>{{ [meta.gender, meta.birth] | select | join(' · ') }}</span>{% endif %}
     </div>
     {% if meta.photo %}<img class="photo" src="{{ meta.photo }}" alt="photo">{% endif %}

@@ -4,6 +4,7 @@ import tempfile
 import unittest
 from contextlib import redirect_stderr
 from pathlib import Path
+from unittest import mock
 
 import frontmatter
 
@@ -212,11 +213,71 @@ class RenderTests(unittest.TestCase):
                 output = render.render_html(meta, [], template)
                 self.assertIn("期望地点：杭州", output)
 
+    def test_hometown_is_rendered_by_all_templates(self):
+        meta = {"name": "库森", "hometown": "浙江省"}
+        for template in render.available_templates():
+            with self.subTest(template=template):
+                output = render.render_html(meta, [], template)
+                self.assertIn("户籍：浙江省", output)
+
     def test_resume_requires_a_name(self):
         stderr = io.StringIO()
         with redirect_stderr(stderr), self.assertRaises(SystemExit):
             render.validate_resume({}, [])
         self.assertIn("缺少必填字段 name", stderr.getvalue())
+
+    def test_old_python_version_is_rejected_clearly(self):
+        stderr = io.StringIO()
+        with redirect_stderr(stderr), self.assertRaises(SystemExit):
+            render.require_python_version((3, 9, 18))
+        self.assertIn("需要 Python 3.10 或更高版本", stderr.getvalue())
+
+    def test_weasyprint_system_dependency_error_is_not_reported_as_missing_package(self):
+        real_import = __import__
+
+        def import_with_weasyprint_error(name, *args, **kwargs):
+            if name == "weasyprint":
+                raise OSError("libgobject-2.0 not found")
+            return real_import(name, *args, **kwargs)
+
+        stderr = io.StringIO()
+        with mock.patch("builtins.__import__", side_effect=import_with_weasyprint_error):
+            with redirect_stderr(stderr), self.assertRaises(SystemExit):
+                render.require_deps(need_pdf=True)
+
+        output = stderr.getvalue()
+        self.assertIn("系统图形库加载失败", output)
+        self.assertIn("--html-only", output)
+        self.assertNotIn("缺少依赖", output)
+
+    def test_unknown_front_matter_field_warns_with_alias(self):
+        stderr = io.StringIO()
+        with redirect_stderr(stderr):
+            render.validate_resume(
+                {"name": "库森", "求职意向": "后端开发工程师"},
+                [],
+            )
+        output = stderr.getvalue()
+        self.assertIn("字段 `求职意向` 不会被模板使用", output)
+        self.assertIn("是否想写 `intent`", output)
+        self.assertIn("没有求职意向", output)
+
+    def test_missing_intent_warns_but_does_not_fail(self):
+        stderr = io.StringIO()
+        with redirect_stderr(stderr):
+            render.validate_resume({"name": "库森"}, [])
+        self.assertIn("没有求职意向", stderr.getvalue())
+
+    def test_template_specific_html_output_avoids_overwrite(self):
+        md_path = Path("resume.md")
+        self.assertEqual(
+            render.html_output_path(md_path, "classic"),
+            Path("resume.classic.html"),
+        )
+        self.assertEqual(
+            render.html_output_path(md_path, "modern"),
+            Path("resume.modern.html"),
+        )
 
     def test_ensure_parent_creates_output_directory(self):
         with tempfile.TemporaryDirectory() as tmp:

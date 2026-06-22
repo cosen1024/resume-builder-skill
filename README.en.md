@@ -84,14 +84,35 @@ under `scripts/`. Keep `assets/` and `references/` intact.
 
 ## Python dependencies
 
-PDF rendering uses WeasyPrint:
+Python **3.10 or newer** is required. PDF rendering uses WeasyPrint by default:
 
 ```bash
 python3 -m pip install -r requirements.txt
 ```
 
 Here, `python3` means the interpreter where these dependencies are installed. Replace it with the
-appropriate interpreter for your virtual environment or operating system.
+appropriate interpreter for your virtual environment or operating system. `requirements.txt` uses
+tested major-version ranges to avoid silently upgrading to incompatible releases.
+
+### If WeasyPrint cannot start
+
+The renderer distinguishes between:
+
+- missing Python packages: reinstall `requirements.txt`
+- installed WeasyPrint with missing system graphics libraries: follow the
+  [WeasyPrint installation guide](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#installation)
+
+As a temporary fallback, generate template-specific HTML:
+
+```bash
+python3 resume_skill/scripts/render.py resume.md \
+  --template compact \
+  --html-only
+```
+
+This produces `resume.compact.html`. Open it in Chrome, Edge, or Safari, print to A4 PDF, and enable
+background graphics. Browser printing is an emergency fallback and may paginate slightly differently
+from WeasyPrint.
 
 ## Usage
 
@@ -183,6 +204,7 @@ resume_skill/
 - Markdown parsing is limited to the headings, entries, and inline syntax documented here
 - Current output formats are HTML and PDF; DOCX export and a web editor are not included
 - JD matching and rewriting are performed by the invoking agent, not by a standalone scorer
+- A Playwright/Chromium backend is not bundled; use browser printing from HTML if WeasyPrint is unavailable
 
 ## Tests
 

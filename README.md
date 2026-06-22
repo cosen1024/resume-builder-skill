@@ -80,14 +80,34 @@ cp -R resume_skill ~/.claude/skills/resume-builder
 
 ## Python 依赖
 
-PDF 由 WeasyPrint 生成：
+需要 **Python 3.10 或更高版本**。PDF 默认由 WeasyPrint 生成：
 
 ```bash
 python3 -m pip install -r requirements.txt
 ```
 
 `python3` 代表安装了这些依赖的解释器。虚拟环境、Linux、macOS 或 Windows 用户应替换为
-自己的解释器命令。
+自己的解释器命令。`requirements.txt` 使用经过测试的主版本范围，避免自动升级到不兼容版本。
+
+### WeasyPrint 无法启动时
+
+脚本会区分两类错误：
+
+- Python 包未安装：按提示重新安装 `requirements.txt`
+- WeasyPrint 已安装但系统图形库加载失败：根据
+  [WeasyPrint 安装文档](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#installation)
+  补齐系统依赖
+
+暂时无法修复系统库时，可以先生成模板专属 HTML：
+
+```bash
+python3 resume_skill/scripts/render.py resume.md \
+  --template compact \
+  --html-only
+```
+
+输出文件为 `resume.compact.html`。使用 Chrome、Edge 或 Safari 打开后打印为 A4 PDF，
+并启用“背景图形”。浏览器打印可作为应急方案，但分页可能与 WeasyPrint 略有差异。
 
 ## 使用
 
@@ -178,6 +198,7 @@ resume_skill/
 - Markdown 只解析本项目约定的标题、条目和简单行内格式
 - 当前输出格式为 HTML 和 PDF，不提供 DOCX 导出或网页编辑器
 - JD 匹配与内容润色由调用 Skill 的 Agent 完成，不是独立评分服务
+- 当前未内置 Playwright/Chromium 后端；WeasyPrint 不可用时可通过 HTML 使用浏览器打印
 
 ## 测试
 

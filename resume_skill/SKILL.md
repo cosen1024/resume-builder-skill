@@ -16,7 +16,8 @@ description: >-
 
 ## 环境要求
 
-使用已安装 WeasyPrint 等依赖的 Python 3 解释器。以下命令以 `python3` 表示该解释器；
+使用 Python 3.10 或更高版本，以及已安装 WeasyPrint 等依赖的解释器。
+以下命令以 `python3` 表示该解释器；
 如果用户使用虚拟环境或平台特定路径，应替换为对应命令。首次缺依赖时：
 ```bash
 python3 -m pip install weasyprint jinja2 python-frontmatter pyyaml openpyxl
@@ -66,9 +67,13 @@ python3 scripts/render.py resume.md --template modern --accent orange --out resu
 - 配色 `--accent`：blue/teal/wine/ink/purple/green/orange 或 `#rrggbb`（compact/modern/timeline/minimal 生效）。
 - 证件照：在 front matter 加 `photo: 路径`，默认不放（投外企建议不放）。
 
-调样式：先阅读 `references/visual-design-system.md`，再用 `--html-only` 输出 HTML，
+调样式：先阅读 `references/visual-design-system.md`，再用 `--html-only` 输出模板专属 HTML
+（例如 `resume.modern.html`，不同模板不会互相覆盖），
 或修改对应模板的 `style.css`。共享字体与打印基线位于 `assets/styles/resume-base.css`。
 渲染后**务必打开 PDF 检查**：中文是否正常、是否一页、有无溢出或截断。
+
+如果 WeasyPrint 因系统图形库缺失而无法启动，先用 `--html-only` 生成 HTML，
+再通过浏览器打印为 A4 PDF；该方式仅作兜底，分页结果可能略有差异。
 
 ### 第 4 步：（可选）针对岗位定向润色
 

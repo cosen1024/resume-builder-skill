@@ -17,6 +17,7 @@ resume.md 的约定（详见 references/field-schema.md）：
     python render.py resume.md --html-only  # 只产出 HTML，便于调试
 """
 import argparse
+import difflib
 import html
 import re
 import sys
@@ -27,6 +28,37 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 SKILL_DIR = SCRIPT_DIR.parent
 TEMPLATES_DIR = SKILL_DIR / "assets" / "templates"
 BASE_STYLE_PATH = SKILL_DIR / "assets" / "styles" / "resume-base.css"
+MIN_PYTHON = (3, 10)
+SUPPORTED_META_FIELDS = {
+    "name",
+    "gender",
+    "birth",
+    "phone",
+    "email",
+    "location",
+    "hometown",
+    "photo",
+    "intent",
+    "intent_detail",
+    "summary",
+}
+META_FIELD_ALIASES = {
+    "姓名": "name",
+    "性别": "gender",
+    "出生日期": "birth",
+    "电话": "phone",
+    "手机号": "phone",
+    "邮箱": "email",
+    "现居住地": "location",
+    "户籍所在地": "hometown",
+    "照片": "photo",
+    "头像": "photo",
+    "求职意向": "intent",
+    "期望职位": "intent",
+    "求职详情": "intent_detail",
+    "个人简介": "summary",
+    "自我评价": "summary",
+}
 
 
 def die(msg):
@@ -34,13 +66,47 @@ def die(msg):
     sys.exit(1)
 
 
+def warn(msg):
+    print(f"[render] 警告：{msg}", file=sys.stderr)
+
+
 def ensure_parent(path):
     Path(path).parent.mkdir(parents=True, exist_ok=True)
+
+
+def require_python_version(version_info=None):
+    version_info = version_info or sys.version_info
+    if tuple(version_info[:2]) < MIN_PYTHON:
+        current = ".".join(str(v) for v in version_info[:3])
+        die(
+            f"需要 Python {MIN_PYTHON[0]}.{MIN_PYTHON[1]} 或更高版本，"
+            f"当前为 Python {current}"
+        )
+
+
+def warn_unused_meta(meta):
+    for key in sorted(set(meta) - SUPPORTED_META_FIELDS):
+        suggestion = META_FIELD_ALIASES.get(key)
+        if suggestion is None:
+            matches = difflib.get_close_matches(
+                str(key),
+                sorted(SUPPORTED_META_FIELDS),
+                n=1,
+                cutoff=0.72,
+            )
+            suggestion = matches[0] if matches else None
+        suffix = f"；是否想写 `{suggestion}`？" if suggestion else ""
+        warn(f"front matter 字段 `{key}` 不会被模板使用{suffix}")
 
 
 def validate_resume(meta, sections):
     if not str(meta.get("name", "")).strip():
         die("resume.md 缺少必填字段 name")
+    warn_unused_meta(meta)
+    if not str(meta.get("intent", "")).strip() and not str(
+        meta.get("intent_detail", "")
+    ).strip():
+        warn("简历头部没有求职意向；如需展示，请填写 intent 或 intent_detail")
 
 
 def require_deps(need_pdf=True):
@@ -56,8 +122,21 @@ def require_deps(need_pdf=True):
     if need_pdf:
         try:
             import weasyprint  # noqa: F401
-        except Exception:
+        except ImportError:
             missing.append("weasyprint")
+        except OSError as exc:
+            die(
+                "WeasyPrint 已安装，但系统图形库加载失败："
+                f"{exc}\n"
+                "请按 WeasyPrint 官方安装文档补齐系统依赖，"
+                "或先使用 --html-only 生成 HTML 后通过浏览器打印 PDF"
+            )
+        except Exception as exc:
+            die(
+                "WeasyPrint 初始化失败："
+                f"{exc}\n"
+                "可先使用 --html-only 生成 HTML 后通过浏览器打印 PDF"
+            )
     if missing:
         die("缺少依赖：\n"
             "    python3 -m pip install "
@@ -202,6 +281,10 @@ def html_to_pdf(html_string, pdf_path, base_url):
     HTML(string=html_string, base_url=str(base_url)).write_pdf(str(pdf_path))
 
 
+def html_output_path(md_path, template_name):
+    return md_path.with_suffix(f".{template_name}.html")
+
+
 def main():
     ap = argparse.ArgumentParser(description="resume.md -> HTML -> PDF (WeasyPrint)")
     ap.add_argument("md", help="resume.md 路径")
@@ -217,6 +300,7 @@ def main():
     ap.add_argument("--html-only", action="store_true", help="只产出 HTML（调试用）")
     args = ap.parse_args()
 
+    require_python_version()
     require_deps(need_pdf=not args.html_only)
     md_path = Path(args.md)
     if not md_path.exists():
@@ -226,7 +310,7 @@ def main():
     validate_resume(meta, sections)
     html_out = render_html(meta, sections, args.template, accent=args.accent)
 
-    html_path = md_path.with_suffix(".html")
+    html_path = html_output_path(md_path, args.template)
     ensure_parent(html_path)
     html_path.write_text(html_out, encoding="utf-8")
     print(f"[render] 已生成 HTML：{html_path}")

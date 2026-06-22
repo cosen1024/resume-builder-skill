@@ -49,6 +49,7 @@
 python3 scripts/render.py resume.md --template modern --accent teal --out resume.pdf
 python3 scripts/render.py resume.md --template compact --accent teal --out resume-compact.pdf
 python3 scripts/render.py resume.md --template minimal   # 默认配色
-python3 scripts/render.py resume.md --html-only          # 只出 HTML，调样式时用
+python3 scripts/render.py resume.md --template modern --html-only
+# 输出 resume.modern.html；不同模板不会互相覆盖
 ```
 改完 `resume.md` 或某模板的 CSS 后重跑即可。想快速对比，分别渲染到不同文件名再看。

@@ -18,6 +18,7 @@
       {% if meta.phone %}<div class="kv">{{ meta.phone }}</div>{% endif %}
       {% if meta.email %}<div class="kv">{{ meta.email }}</div>{% endif %}
       {% if meta.location %}<div class="kv">{{ meta.location }}</div>{% endif %}
+      {% if meta.hometown %}<div class="kv">户籍：{{ meta.hometown }}</div>{% endif %}
       {% if meta.gender or meta.birth %}<div class="kv">{{ [meta.gender, meta.birth] | select | join(' · ') }}</div>{% endif %}
     </div>
 
