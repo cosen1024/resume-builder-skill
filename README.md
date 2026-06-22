@@ -22,16 +22,20 @@
 
 ## 模板效果
 
-| `compact` · 紧凑单栏 | `classic` · 黑白 ATS | `modern` · 彩色侧栏 |
-|---|---|---|
-| <img src="preview/resume-compact.png" alt="compact 简历效果" width="260"> | <img src="preview/resume-classic.png" alt="classic 简历效果" width="260"> | <img src="preview/resume-modern.png" alt="modern 简历效果" width="260"> |
-
-| `timeline` · 时间线 | `minimal` · 极简留白 |
+| `compact` · 紧凑单栏 | `classic` · 黑白 ATS |
 |---|---|
-| <img src="preview/resume-timeline.png" alt="timeline 简历效果" width="260"> | <img src="preview/resume-minimal.png" alt="minimal 简历效果" width="260"> |
+| <a href="preview/resume-compact.png"><img src="preview/resume-compact.png" alt="compact 简历效果" width="400"></a> | <a href="preview/resume-classic.png"><img src="preview/resume-classic.png" alt="classic 简历效果" width="400"></a> |
+
+| `modern` · 彩色侧栏 | `timeline` · 时间线 |
+|---|---|
+| <a href="preview/resume-modern.png"><img src="preview/resume-modern.png" alt="modern 简历效果" width="400"></a> | <a href="preview/resume-timeline.png"><img src="preview/resume-timeline.png" alt="timeline 简历效果" width="400"></a> |
+
+| `minimal` · 极简留白 |
+|---|
+| <a href="preview/resume-minimal.png"><img src="preview/resume-minimal.png" alt="minimal 简历效果" width="400"></a> |
 
 预览中的姓名、学校、公司、项目、奖项和数字均为虚构示例，不代表任何真实关联。
-头像用于展示可选照片布局；删除 `photo` 字段即可生成无头像版本。
+头像用于展示可选照片布局；删除 `photo` 字段即可生成无头像版本。点击图片可查看高清原图。
 
 ## 安装
 

@@ -24,16 +24,21 @@ searchable, selectable A4 PDFs.
 
 ## Template previews
 
-| `compact` · dense | `classic` · ATS | `modern` · sidebar |
-|---|---|---|
-| <img src="preview/resume-compact.png" alt="compact resume preview" width="260"> | <img src="preview/resume-classic.png" alt="classic resume preview" width="260"> | <img src="preview/resume-modern.png" alt="modern resume preview" width="260"> |
-
-| `timeline` · chronological | `minimal` · restrained |
+| `compact` · dense | `classic` · ATS |
 |---|---|
-| <img src="preview/resume-timeline.png" alt="timeline resume preview" width="260"> | <img src="preview/resume-minimal.png" alt="minimal resume preview" width="260"> |
+| <a href="preview/resume-compact.png"><img src="preview/resume-compact.png" alt="compact resume preview" width="400"></a> | <a href="preview/resume-classic.png"><img src="preview/resume-classic.png" alt="classic resume preview" width="400"></a> |
+
+| `modern` · sidebar | `timeline` · chronological |
+|---|---|
+| <a href="preview/resume-modern.png"><img src="preview/resume-modern.png" alt="modern resume preview" width="400"></a> | <a href="preview/resume-timeline.png"><img src="preview/resume-timeline.png" alt="timeline resume preview" width="400"></a> |
+
+| `minimal` · restrained |
+|---|
+| <a href="preview/resume-minimal.png"><img src="preview/resume-minimal.png" alt="minimal resume preview" width="400"></a> |
 
 All names, schools, companies, projects, awards, and figures in the previews are fictional.
 The avatar demonstrates optional photo placement; remove the `photo` field for a photo-free version.
+Click any preview to open the high-resolution image.
 
 ## Installation
 
