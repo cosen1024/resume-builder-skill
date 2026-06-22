@@ -15,7 +15,6 @@ summary: >-
 
 ### 南京理工大学 · 计算机科学与技术 · 硕士 | 2023.09 – 2026.06
 - GPA 3.72/4.0，专业排名前 15%；研究方向：分布式系统与智能计算
-- 主修：高级算法、分布式系统、机器学习、云计算
 
 ### 合肥工业大学 · 软件工程 · 本科 | 2019.09 – 2023.06
 - GPA 3.63/4.0，专业排名前 20%
@@ -43,10 +42,11 @@ summary: >-
 - **成果**：方案应用于 RoboMaster 校队机器人并完成区域赛实机验证
 
 ## 专业技能
-- **编程语言**：Go、Python、Java、C++
-- **后端/中间件**：gRPC、Redis、Kafka、MySQL、Kubernetes、Docker
-- **机器学习**：PyTorch、TensorFlow，熟悉推荐系统与 CV 常用模型
-- **语言能力**：英语（托福 108）、普通话（母语）
+- **编程语言**：Go、Java、Python、C++，熟悉并发编程、常用数据结构与算法
+- **后端技术**：Gin、Spring Boot、gRPC、RESTful API、Redis、Kafka
+- **数据与系统**：MySQL、Linux、TCP/IP，了解分布式一致性、负载均衡与服务治理
+- **工程工具**：Git、Docker、Kubernetes、Prometheus、Grafana，具备单元测试与压测经验
+- **其他能力**：PyTorch、OpenCV，熟悉目标检测与路径规划；英语 TOEFL 108
 
 ## 荣誉奖项
 - 2025.05 · 蓝桥杯全国软件和信息技术专业人才大赛 · 全国二等奖

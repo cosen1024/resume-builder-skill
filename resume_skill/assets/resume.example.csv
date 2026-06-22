@@ -28,7 +28,10 @@
 项目经验1,项目描述,面向计算集群的任务调度与可观测性实践项目
 项目经验1,责任描述,设计任务分片与失败重试机制\n搭建监控告警与自动化评测流水线
 项目经验1,项目成果,获研究生工程实践竞赛校级一等奖
-技能证书,编程语言,Go、Python、Java、C++
-技能证书,后端/中间件,gRPC、Redis、Kafka、MySQL、Kubernetes、Docker
+技能证书,编程语言,Go、Java、Python、C++，熟悉并发编程、常用数据结构与算法
+技能证书,后端技术,Gin、Spring Boot、gRPC、RESTful API、Redis、Kafka
+技能证书,数据与系统,MySQL、Linux、TCP/IP，了解分布式一致性、负载均衡与服务治理
+技能证书,工程工具,Git、Docker、Kubernetes、Prometheus、Grafana，具备单元测试与压测经验
+技能证书,其他能力,PyTorch、OpenCV，熟悉目标检测与路径规划；英语 TOEFL 108
 获奖情况1,获奖时间,2025.05
 获奖情况1,获奖名称,蓝桥杯全国软件和信息技术专业人才大赛全国二等奖
