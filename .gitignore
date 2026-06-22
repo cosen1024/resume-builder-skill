@@ -11,6 +11,9 @@ output/
 *.html
 *.pdf
 
+# Promotional articles / drafts
+docs/
+
 # Local research/reference material, not part of the distributable skill
 reference/
 template/

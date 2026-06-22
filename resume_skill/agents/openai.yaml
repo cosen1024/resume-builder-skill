@@ -1,7 +1,7 @@
 interface:
-  display_name: "中文简历生成器"
-  short_description: "从经历或表格生成、润色并渲染中文 PDF 简历"
-  default_prompt: "使用 $resume-builder 根据我的真实经历生成一份简洁、量化且适合目标岗位的中文简历。"
+  display_name: "简历生成器"
+  short_description: "从经历或表格生成、润色并渲染求职 PDF 简历"
+  default_prompt: "请使用 resume-builder，根据我的真实经历生成一份简洁、量化且适合目标岗位的简历。"
 
 policy:
   allow_implicit_invocation: false

@@ -1,7 +1,7 @@
 ---
 name: resume-builder
 description: >-
-  根据个人信息生成美观的中文简历（校招/社招通用），支持 compact/classic/modern/timeline/minimal 五套可切换模板、多种配色与可选证件照，
+  根据个人信息生成美观的求职简历（中文排版优化，也支持英文或中英双语；校招/社招通用），支持 compact/classic/modern/timeline/minimal 五套可切换模板、多种配色与可选证件照，
   以 Markdown 为内容源、渲染成 PDF 导出；并能按 STAR/量化等最佳实践润色，或针对目标岗位 JD 做定向改写与匹配度分析。
   仅在用户明确要求写简历、做简历、简历润色、简历排版、导出简历 PDF，或针对求职岗位/JD 调整履历时使用。
   Use only for explicit resume/CV creation, polishing, formatting, PDF export, or job-description tailoring requests.
@@ -10,7 +10,7 @@ description: >-
 
 # 简历生成器 resume-builder
 
-帮用户把个人信息做成一份**美观、可量化、与岗位对齐**的中文简历，并渲染成 PDF。
+帮用户把个人信息做成一份**美观、可量化、与岗位对齐**的求职简历，并渲染成 PDF。
 内容源是 `resume.md`（Markdown），渲染后端是 WeasyPrint（HTML/CSS → PDF），提供五套模板 + 配色 + 可选证件照。
 模板使用离线字体回退和固定打印 CSS，不依赖 Typora、浏览器打印、CDN 或远程字体。
 
