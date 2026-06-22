@@ -9,6 +9,9 @@
 
 ![compact 模板 PDF 高清预览](docs/images/resume-compact.png)
 
+预览中的姓名、学校、公司、项目、奖项和数字均为虚构示例；学校名称仅用于展示教育背景排版，
+不代表作者与相关院校存在关联。
+
 ## 功能
 
 - 根据对话、Markdown、CSV 或 xlsx 整理简历

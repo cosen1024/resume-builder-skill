@@ -9,6 +9,9 @@ one Markdown source into multiple searchable A4 PDF layouts.
 
 ![High-resolution compact PDF preview](docs/images/resume-compact.png)
 
+All names, schools, companies, projects, awards, and figures in the preview are fictional examples.
+School names are used only to demonstrate layout and do not imply any affiliation.
+
 ## Features
 
 - Build resumes from conversation, Markdown, CSV, or xlsx
