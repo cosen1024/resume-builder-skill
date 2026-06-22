@@ -186,6 +186,8 @@ class RenderTests(unittest.TestCase):
 
         self.assertNotIn("var(--accent)", classic_css)
         self.assertIn("var(--accent)", compact_css)
+        self.assertIn("font-family: var(--font-serif)", classic_css)
+        self.assertIn(".sec-title {\n  font-family: var(--font-sans)", classic_css)
 
     def test_optional_photo_is_rendered_by_supported_templates(self):
         for template in ("classic", "compact", "modern", "minimal"):

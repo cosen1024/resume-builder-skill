@@ -3,7 +3,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   color: #222;
   line-height: 1.5;
   font-size: 10.5pt;
@@ -15,7 +15,7 @@ body {
 
 /* 头部 */
 .hd { text-align: center; padding-bottom: 8px; border-bottom: 2px solid #222; margin-bottom: 12px; }
-.name { font-size: 22pt; font-weight: 700; letter-spacing: 2px; }
+.name { font-family: var(--font-sans); font-size: 22pt; font-weight: 700; letter-spacing: 2px; }
 .intent { font-size: 11pt; color: #333; margin-top: 4px; }
 .intent-detail { font-size: 9.2pt; color: #666; }
 .contact { font-size: 9.5pt; color: #555; margin-top: 5px; }
@@ -29,6 +29,7 @@ body {
 /* 区块 */
 .sec { margin-bottom: 11px; }
 .sec-title {
+  font-family: var(--font-sans);
   font-size: 12pt; font-weight: 700; color: #1a1a1a;
   border-bottom: 1px solid #bbb; padding-bottom: 3px; margin-bottom: 7px;
   letter-spacing: 1px;
@@ -37,7 +38,7 @@ body {
 /* 条目 */
 .entry { margin-bottom: 8px; page-break-inside: avoid; break-inside: avoid; }
 .entry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-.entry-title strong { font-size: 10.8pt; }
+.entry-title strong { font-family: var(--font-sans); font-size: 10.8pt; }
 .entry-sub { color: #555; font-size: 10pt; margin-left: 4px; }
 .entry-meta { color: #666; font-size: 9.5pt; white-space: nowrap; }
 

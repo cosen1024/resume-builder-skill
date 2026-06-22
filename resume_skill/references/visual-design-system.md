@@ -21,13 +21,13 @@
 适用于技术、产品、互联网岗位，也是默认字体：
 
 ```css
-"Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC",
-"Source Han Sans SC", "Heiti SC", sans-serif
+"Microsoft YaHei", "Heiti SC", "Source Han Sans SC",
+"Noto Sans CJK SC", "Hiragino Sans GB", sans-serif
 ```
 
 ### 衬线字体
 
-只用于正式、编辑感较强的模板，不作为默认方案：
+用于 `classic` 等正式、编辑感较强的模板：
 
 ```css
 "Songti SC", "STSong", "Noto Serif CJK SC",

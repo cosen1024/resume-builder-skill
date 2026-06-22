@@ -8,8 +8,6 @@ location: 杭州市西湖区
 photo: examples/demo-avatar.png
 intent: 后端开发工程师 / 算法工程师
 intent_detail: 期望地点：杭州/上海 · 到岗时间：2026.06
-summary: >-
-  计算机硕士在读，具备两段后端实习经历，关注分布式系统、服务性能与工程落地。
 ---
 
 ## 教育背景
