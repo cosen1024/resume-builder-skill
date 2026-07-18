@@ -20,6 +20,10 @@
       {% if meta.location %}<div class="kv">{{ meta.location }}</div>{% endif %}
       {% if meta.hometown %}<div class="kv">户籍：{{ meta.hometown }}</div>{% endif %}
       {% if meta.gender or meta.birth %}<div class="kv">{{ [meta.gender, meta.birth] | select | join(' · ') }}</div>{% endif %}
+      {% if meta.wechat %}<div class="kv">{{ meta.wechat }}</div>{% endif %}
+      {% if meta.github %}<div class="kv">{{ meta.github }}</div>{% endif %}
+      {% if meta.website %}<div class="kv">{{ meta.website }}</div>{% endif %}
+      {% if meta.linkedin %}<div class="kv">{{ meta.linkedin }}</div>{% endif %}
     </div>
 
     {% if meta.summary %}

@@ -37,6 +37,10 @@ SUPPORTED_META_FIELDS = {
     "email",
     "location",
     "hometown",
+    "wechat",
+    "github",
+    "website",
+    "linkedin",
     "photo",
     "intent",
     "intent_detail",
@@ -51,6 +55,11 @@ META_FIELD_ALIASES = {
     "邮箱": "email",
     "现居住地": "location",
     "户籍所在地": "hometown",
+    "微信": "wechat",
+    "微信号": "wechat",
+    "个人主页": "website",
+    "博客": "website",
+    "领英": "linkedin",
     "照片": "photo",
     "头像": "photo",
     "求职意向": "intent",
@@ -145,13 +154,35 @@ def require_deps(need_pdf=True):
 
 # ---------- Markdown 解析 ----------
 
+# 链接允许的 scheme 白名单（不区分大小写）；javascript:/data:/file: 等一律拒绝
+LINK_SCHEMES = ("http", "https", "mailto")
+
+
 def inline_md(text):
-    """最小行内 Markdown -> HTML：转义后处理 **加粗**、*斜体*、`代码`。"""
+    """最小行内 Markdown -> HTML：转义后处理 **加粗**、*斜体*、`代码`、`[文字](链接)`。
+
+    链接最先处理：先把 `[文字](URL)` 替换成占位符，强调/代码替换完成后再回填
+    生成的 <a> 标签。这样 URL 里的 `*`、`` ` `` 等字符不会参与强调匹配，
+    生成的 <a> 标签也不会被后续正则破坏——比单纯调整正则先后顺序更可靠。
+    text 已整体 html 转义，因此链接文字与 href 里的 URL 都是转义后的安全内容。
+    """
     text = html.escape(text)
+    anchors = []
+
+    def stash_link(m):
+        label, url = m.group(1), m.group(2)
+        scheme = url.split(":", 1)[0].lower()
+        if scheme not in LINK_SCHEMES:
+            return label  # scheme 不在白名单：退化为纯文字，不生成 <a>
+        anchors.append(f'<a href="{url}">{label}</a>')
+        return f"\x00{len(anchors) - 1}\x00"
+
+    text = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", stash_link, text)
     text = re.sub(r"\*\*\*(.+?)\*\*\*", r"<strong><em>\1</em></strong>", text)
     text = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
     text = re.sub(r"(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)", r"<em>\1</em>", text)
     text = re.sub(r"`(.+?)`", r"<code>\1</code>", text)
+    text = re.sub(r"\x00(\d+)\x00", lambda m: anchors[int(m.group(1))], text)
     return Markup(text)
 
 
@@ -277,8 +308,11 @@ def render_html(meta, sections, template_name, accent=None):
 
 
 def html_to_pdf(html_string, pdf_path, base_url):
+    """渲染 PDF 并返回页数（供调用方打印/做超一页警告）。"""
     from weasyprint import HTML
-    HTML(string=html_string, base_url=str(base_url)).write_pdf(str(pdf_path))
+    document = HTML(string=html_string, base_url=str(base_url)).render()
+    document.write_pdf(str(pdf_path))
+    return len(document.pages)
 
 
 def html_output_path(md_path, template_name):
@@ -320,8 +354,13 @@ def main():
 
     pdf_path = Path(args.out) if args.out else md_path.with_suffix(".pdf")
     ensure_parent(pdf_path)
-    html_to_pdf(html_out, pdf_path, base_url=md_path.parent)
+    pages = html_to_pdf(html_out, pdf_path, base_url=md_path.parent)
     print(f"[render] 已生成 PDF：{pdf_path}（模板：{args.template}）")
+    if pages > 1:
+        print(f"[render] 页数：{pages} ⚠ 超过 1 页，校招/海投建议精简到 1 页",
+              file=sys.stderr)
+    else:
+        print(f"[render] 页数：{pages}")
 
 
 if __name__ == "__main__":

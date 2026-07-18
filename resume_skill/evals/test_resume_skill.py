@@ -110,6 +110,76 @@ class CsvToMarkdownTests(unittest.TestCase):
         self.assertNotIn("id_number", post.metadata)
         self.assertIn("# id_number:", md)
 
+    def test_unknown_category_digit_suffix_is_stripped_from_entry_heading(self):
+        rows = [
+            ["分类", "字段名", "值"],
+            ["基本信息", "姓名", "库森"],
+            ["竞赛经历1", "奖项名称", "全国大学生数学建模竞赛一等奖"],
+        ]
+        meta, intent_parts, summary, groups = csv_to_md.build(rows)
+        md = csv_to_md.to_markdown(meta, intent_parts, summary, groups)
+
+        self.assertNotIn("竞赛经历1", md)
+        self.assertIn("## 竞赛经历", md)
+        self.assertIn("### 竞赛经历", md)
+        self.assertIn("- 全国大学生数学建模竞赛一等奖", md)
+
+    def test_xlsx_datetime_cells_keep_only_the_date(self):
+        import datetime
+        import openpyxl
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "resume.xlsx"
+            workbook = openpyxl.Workbook()
+            sheet = workbook.active
+            sheet.append(["分类", "字段名", "值"])
+            sheet.append(["基本信息", "出生日期", datetime.datetime(1999, 11, 1)])
+            workbook.save(path)
+
+            rows = csv_to_md.read_rows(path)
+
+        self.assertEqual(rows[1], ["基本信息", "出生日期", "1999-11-01"])
+        self.assertNotIn("00:00:00", rows[1][2])
+    def test_meta_keys_map_contact_link_fields_case_insensitively(self):
+        meta, _, _, _ = csv_to_md.build([
+            ["基本信息", "微信", "kusen-wx"],
+            ["基本信息", "个人主页", "https://example.com"],
+            ["基本信息", "GitHub", "gh-user"],
+            ["基本信息", "领英", "li-user"],
+        ])
+        self.assertEqual(meta["wechat"], "kusen-wx")
+        self.assertEqual(meta["website"], "https://example.com")
+        self.assertEqual(meta["github"], "gh-user")
+        self.assertEqual(meta["linkedin"], "li-user")
+
+        # 同义字段名与大小写变体映射到同一个 key
+        for field in ("微信号", "wechat", "WECHAT", "WeChat"):
+            meta, _, _, _ = csv_to_md.build([["基本信息", field, "v"]])
+            self.assertEqual(meta.get("wechat"), "v", field)
+        for field in ("github", "GITHUB"):
+            meta, _, _, _ = csv_to_md.build([["基本信息", field, "v"]])
+            self.assertEqual(meta.get("github"), "v", field)
+        for field in ("linkedin", "LinkedIn"):
+            meta, _, _, _ = csv_to_md.build([["基本信息", field, "v"]])
+            self.assertEqual(meta.get("linkedin"), "v", field)
+        for field in ("主页", "博客", "个人网站", "website", "Website"):
+            meta, _, _, _ = csv_to_md.build([["基本信息", field, "v"]])
+            self.assertEqual(meta.get("website"), "v", field)
+
+        # 生成的 Markdown 能把新字段写进 front matter 并被解析回来
+        md = csv_to_md.to_markdown(
+            {"name": "库森", "wechat": "kusen-wx", "github": "gh-user",
+             "website": "https://example.com", "linkedin": "li-user"},
+            {},
+            "",
+            [],
+        )
+        post = frontmatter.loads(md)
+        self.assertEqual(post["wechat"], "kusen-wx")
+        self.assertEqual(post["github"], "gh-user")
+        self.assertEqual(post["website"], "https://example.com")
+        self.assertEqual(post["linkedin"], "li-user")
+
 
 class RenderTests(unittest.TestCase):
     def test_template_discovery_only_returns_renderable_templates(self):
@@ -143,6 +213,51 @@ class RenderTests(unittest.TestCase):
     def test_inline_markdown_has_valid_triple_emphasis_order(self):
         output = str(render.inline_md("***粗斜体***"))
         self.assertEqual(output, "<strong><em>粗斜体</em></strong>")
+
+    def test_inline_markdown_link_renders_anchor(self):
+        output = str(render.inline_md("[博客](https://example.com)"))
+        self.assertEqual(output, '<a href="https://example.com">博客</a>')
+
+    def test_inline_markdown_link_supports_mailto(self):
+        output = str(render.inline_md("[邮箱](mailto:a@b.com)"))
+        self.assertEqual(output, '<a href="mailto:a@b.com">邮箱</a>')
+
+    def test_inline_markdown_link_scheme_whitelist_is_case_insensitive(self):
+        self.assertIn('href="HTTPS://example.com"',
+                      str(render.inline_md("[x](HTTPS://example.com)")))
+        self.assertIn('href="Mailto:a@b.com"',
+                      str(render.inline_md("[x](Mailto:a@b.com)")))
+
+    def test_inline_markdown_link_rejects_disallowed_schemes(self):
+        for url in ("javascript:alert(1)", "data:text/html,<b>x</b>",
+                    "file:///etc/passwd", "vbscript:msgbox(1)"):
+            with self.subTest(url=url):
+                output = str(render.inline_md(f"[点我]({url})"))
+                self.assertNotIn("href", output)
+                self.assertNotIn("<a", output)
+                self.assertIn("点我", output)  # 退化为纯文字
+
+    def test_inline_markdown_link_escapes_label_and_url(self):
+        output = str(render.inline_md('[a<b & "c"](https://example.com/?a=1&b="2")'))
+        self.assertIn('<a href="https://example.com/?a=1&amp;b=&quot;2&quot;">', output)
+        self.assertIn('a&lt;b &amp; &quot;c&quot;</a>', output)
+
+    def test_inline_markdown_link_url_special_chars_survive_emphasis(self):
+        # URL 里的 *、` 不应被强调/代码语法匹配破坏
+        output = str(render.inline_md("[x](https://example.com/*star*`tick`)"))
+        self.assertIn('href="https://example.com/*star*`tick`"', output)
+        self.assertNotIn("<em>", output)
+        # 链接外的强调语法仍正常工作
+        output = str(render.inline_md("**重点**见[博客](https://example.com)"))
+        self.assertEqual(
+            output,
+            '<strong>重点</strong>见<a href="https://example.com">博客</a>',
+        )
+
+    def test_inline_markdown_link_relative_url_is_rejected(self):
+        output = str(render.inline_md("[x](/local/path)"))
+        self.assertNotIn("href", output)
+        self.assertIn("x", output)
 
     def test_heading_accepts_ascii_or_fullwidth_separators_without_spaces(self):
         ascii_heading = render.parse_entry_heading("### 公司|2024.01-2024.06")
@@ -219,6 +334,46 @@ class RenderTests(unittest.TestCase):
             with self.subTest(template=template):
                 output = render.render_html(meta, [], template)
                 self.assertIn("户籍：浙江省", output)
+
+    def test_hometown_leaves_no_placeholder_when_absent(self):
+        for template in render.available_templates():
+            with self.subTest(template=template):
+                output = render.render_html({"name": "库森"}, [], template)
+                self.assertNotIn("hometown", output)
+
+    def test_contact_link_fields_render_in_all_templates(self):
+        meta = {
+            "name": "库森",
+            "wechat": "wx-kusen",
+            "github": "gh-kusen",
+            "website": "https://blog.kusen.dev",
+            "linkedin": "li-kusen",
+        }
+        for template in render.available_templates():
+            with self.subTest(template=template):
+                output = render.render_html(meta, [], template)
+                for value in ("wx-kusen", "gh-kusen",
+                              "https://blog.kusen.dev", "li-kusen"):
+                    self.assertIn(value, output)
+
+    def test_contact_link_fields_are_omitted_when_absent(self):
+        # 字段缺省时不输出值，也不残留字段名/标签等标记
+        for template in render.available_templates():
+            with self.subTest(template=template):
+                output = render.render_html({"name": "库森"}, [], template)
+                for marker in ("wechat", "github", "website", "linkedin"):
+                    self.assertNotIn(marker, output)
+
+    def test_contact_link_fields_render_partial_subset(self):
+        # 只给部分字段时，仅输出给了的字段
+        meta = {"name": "库森", "github": "gh-kusen"}
+        for template in render.available_templates():
+            with self.subTest(template=template):
+                output = render.render_html(meta, [], template)
+                self.assertIn("gh-kusen", output)
+                self.assertNotIn("wechat", output)
+                self.assertNotIn("linkedin", output)
+>>>>>>> 7a65544 (feat: add inline links, social contact fields, PDF page count)
 
     def test_resume_requires_a_name(self):
         stderr = io.StringIO()
@@ -315,6 +470,30 @@ class RenderTests(unittest.TestCase):
                 for page in document.pages:
                     self.assertAlmostEqual(page.width, 793.7, delta=1)
                     self.assertAlmostEqual(page.height, 1122.5, delta=1)
+
+    def test_html_to_pdf_reports_one_page_for_example_resume(self):
+        md_path = SKILL_DIR / "assets" / "resume.example.md"
+        meta, sections = render.parse_resume(md_path)
+        render.validate_resume(meta, sections)
+        html = render.render_html(meta, sections, "classic")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            pdf_path = Path(tmp) / "resume.pdf"
+            pages = render.html_to_pdf(html, pdf_path, base_url=md_path.parent)
+            self.assertEqual(pages, 1)
+            self.assertTrue(pdf_path.is_file())
+            self.assertGreater(pdf_path.stat().st_size, 0)
+
+    def test_html_to_pdf_reports_multiple_pages_for_long_resume(self):
+        md_path = SKILL_DIR / "assets" / "resume.example.md"
+        meta, sections = render.parse_resume(md_path)
+        html = render.render_html(meta, sections * 3, "classic")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            pdf_path = Path(tmp) / "resume.pdf"
+            pages = render.html_to_pdf(html, pdf_path, base_url=md_path.parent)
+            self.assertGreaterEqual(pages, 2)
+            self.assertTrue(pdf_path.is_file())
 
 
 if __name__ == "__main__":

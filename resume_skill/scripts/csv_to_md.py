@@ -15,6 +15,7 @@
 """
 import argparse
 import csv
+import datetime
 import re
 import sys
 from pathlib import Path
@@ -38,10 +39,16 @@ SECTION_TITLES = {
 }
 
 # 基本信息字段名 -> front matter key
+# ASCII 字段名一律用小写登记，查找时对字段名做 lower() 回退，大小写写法都能识别
 META_KEYS = {
     "姓名": "name", "性别": "gender", "出生日期": "birth",
     "手机号": "phone", "电话": "phone", "邮箱": "email", "email": "email",
     "现居住地": "location", "户籍所在地": "hometown",
+    "微信": "wechat", "微信号": "wechat", "wechat": "wechat",
+    "github": "github",
+    "linkedin": "linkedin", "领英": "linkedin",
+    "个人主页": "website", "主页": "website", "博客": "website",
+    "个人网站": "website", "website": "website",
     "身份证号": "id_number",  # 隐私字段，默认注释掉
 }
 
@@ -69,10 +76,12 @@ def strip_digit_suffix(category):
 
 
 def xlsx_cell_to_text(cell):
-    """转换 xlsx 单元格；拒绝 Excel 无法精确保存的超长数值。"""
+    """转换 xlsx 单元格；日期只保留年月日，拒绝 Excel 无法精确保存的超长数值。"""
     value = cell.value
     if value is None:
         return ""
+    if isinstance(value, (datetime.datetime, datetime.date)):
+        return value.strftime("%Y-%m-%d")
     if isinstance(value, (int, float)) and abs(value) >= EXCEL_MAX_EXACT_INTEGER:
         sys.exit(
             f"[csv_to_md] xlsx 单元格 {cell.coordinate} 含 16 位以上数字。"
@@ -127,7 +136,7 @@ def build(rows):
         target = SECTION_TITLES.get(base) or SECTION_TITLES.get(category)
 
         if target == "__meta__":
-            key = META_KEYS.get(field)
+            key = META_KEYS.get(field) or META_KEYS.get(field.lower())
             if key:
                 meta[key] = value.strip()
             continue
@@ -221,7 +230,7 @@ def entry_md(category, d):
         lines.append(f"- {bits}")
 
     else:
-        lines.append(f"### {category}")
+        lines.append(f"### {base}")
         for field, value in d.items():
             if value and value.strip():
                 for b in split_lines(value):
@@ -233,7 +242,8 @@ def entry_md(category, d):
 def to_markdown(meta, intent_parts, summary, groups):
     # 使用 YAML 序列化器，避免姓名、岗位、简介中的冒号、井号、换行等破坏 front matter。
     front = {}
-    order = ["name", "gender", "birth", "phone", "email", "location", "hometown"]
+    order = ["name", "gender", "birth", "phone", "email", "location", "hometown",
+             "wechat", "github", "website", "linkedin"]
     for k in order:
         if meta.get(k):
             front[k] = str(meta[k])

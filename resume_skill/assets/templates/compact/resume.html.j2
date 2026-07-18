@@ -19,6 +19,10 @@
       {% if meta.location %}<span>{{ meta.location }}</span>{% endif %}
       {% if meta.hometown %}<span>户籍：{{ meta.hometown }}</span>{% endif %}
       {% if meta.gender or meta.birth %}<span>{{ [meta.gender, meta.birth] | select | join(' · ') }}</span>{% endif %}
+      {% if meta.wechat %}<span>{{ meta.wechat }}</span>{% endif %}
+      {% if meta.github %}<span>{{ meta.github }}</span>{% endif %}
+      {% if meta.website %}<span>{{ meta.website }}</span>{% endif %}
+      {% if meta.linkedin %}<span>{{ meta.linkedin }}</span>{% endif %}
     </div>
     {% if meta.photo %}<img class="photo" src="{{ meta.photo }}" alt="photo">{% endif %}
   </header>

@@ -24,6 +24,10 @@
       {% if meta.hometown %}{% set _ = bits.append('户籍：' ~ meta.hometown) %}{% endif %}
       {% if meta.gender %}{% set _ = bits.append(meta.gender) %}{% endif %}
       {% if meta.birth %}{% set _ = bits.append(meta.birth) %}{% endif %}
+      {% if meta.wechat %}{% set _ = bits.append(meta.wechat) %}{% endif %}
+      {% if meta.github %}{% set _ = bits.append(meta.github) %}{% endif %}
+      {% if meta.website %}{% set _ = bits.append(meta.website) %}{% endif %}
+      {% if meta.linkedin %}{% set _ = bits.append(meta.linkedin) %}{% endif %}
       {{ bits | join('  ·  ') }}
     </div>
     {% if meta.summary %}<p class="summary">{{ meta.summary }}</p>{% endif %}
