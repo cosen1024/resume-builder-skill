@@ -373,7 +373,6 @@ class RenderTests(unittest.TestCase):
                 self.assertIn("gh-kusen", output)
                 self.assertNotIn("wechat", output)
                 self.assertNotIn("linkedin", output)
->>>>>>> 7a65544 (feat: add inline links, social contact fields, PDF page count)
 
     def test_resume_requires_a_name(self):
         stderr = io.StringIO()
